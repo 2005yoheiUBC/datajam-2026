@@ -1,0 +1,2 @@
+neighbourhood_cleansed,bucket,bedrooms_grp,price_cad,source
+Downtown,condo,1,PLACEHOLDER,"fill from a public source, e.g. City of Vancouver Open Data property tax report (assessed values) or GVR HPI"
