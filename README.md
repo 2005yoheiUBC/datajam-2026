@@ -22,7 +22,7 @@ python3 scripts/deep_analysis.py
 python3 -m unittest discover -s scripts -p 'test_deep_analysis.py'
 ```
 
-Read `outputs/deep_analysis/report_ja.md` for the Japanese report. Companion CSVs contain fixed-holdings stress cases, reselected portfolios, sample-size and concentration-cap comparisons, and audit results. The analysis preserves the original outputs. Selection uses a yield-first heuristic, not a proven global optimum. The original purchase proposal violates the stated 10% supply cap in two segments; the report compares strict-cap alternatives. The legal short-term-rental threshold and platform fee assumptions also need updating before treating the original pipeline as a current-market model.
+Start with [analsis/README.md](analsis/README.md) for the organized recommendations, calculation explanations, and earlier visuals. The current English recommendation excludes platform, management, and cleaning/supplies costs. Earlier fee-inclusive reports and tables are preserved under `analsis/archive/fee_inclusive_analysis/`; they use an earlier aggregate snapshot. Future deep-analysis runs write their Japanese report and scenario tables to `analsis/deep_analysis/`. Selection uses a yield-first heuristic, not a proven global optimum. See each report for its assumptions and audit findings.
 
 ## Files
 
@@ -33,6 +33,7 @@ src/prep.py        Load, clean, revenue per listing, neighbourhood x type x bedr
 src/portfolio.py   Costs -> yield, $10M greedy portfolio, few-vs-many, sensitivity range
 notebooks/         Exploration and charts for the slides
 docs/              Decision log + assumptions (both become slides)
+analsis/           Current recommendation, calculation explanations, and archived scenarios
 ```
 
 ## Rules

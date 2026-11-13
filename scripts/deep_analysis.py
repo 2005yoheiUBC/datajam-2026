@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src import config as C
 
-OUT = ROOT / "outputs" / "deep_analysis"
+OUT = ROOT / "analsis" / "deep_analysis"
 KEYS = tuple(C.SEGMENT_KEYS)
 TEXT = set(KEYS) | {"side", "gvr_type", "scenario", "case", "step", "why"}
 SOURCES = {
@@ -383,7 +383,7 @@ strict_n20は比較20件以上と供給10%制限。fee_15_5_n20はさらに手�
 
 ## 再現方法・出力
 
-`python3 scripts/deep_analysis.py`。追加パッケージ不要。元CSVとsrc/config.pyを読み、outputs/deep_analysis/にのみ出力する。変更した仮定を反映するには元のrun.pyで集計を再生成してから実行する。既存集計と現在のconfigが一致しないと監査で検出される。
+`python3 scripts/deep_analysis.py`。追加パッケージ不要。元CSVとsrc/config.pyを読み、analsis/deep_analysis/にのみ出力する。変更した仮定を反映するには元のrun.pyで集計を再生成してから実行する。既存集計と現在のconfigが一致しないと監査で検出される。
 
 audit.csvに再計算と制約検証、segment_diagnostics.csvに損益分岐売上・4%利回りを満たす購入価格上限、price_revenue_grid.csvに価格×売上×手数料の60ケース、その他CSVに購入案と感度結果を保存。manifest.jsonには入力ファイルのSHA-256を記録。市場価格・法制度・手数料の外部参照は2026年11月12日に確認。将来の公式ページ更新はこのレポートへ自動反映されない。
 
