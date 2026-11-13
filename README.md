@@ -13,7 +13,16 @@ bash scripts/download_data.sh   # only if data/raw/ is empty
 python run.py                   # -> outputs/tables/*.csv, outputs/key_numbers.json
 ```
 
-The portfolio step needs `data/external/purchase_prices.csv` (copy the template, fill it from a public source).
+The portfolio step uses `data/external/gvr_benchmark_2026-10.csv` and the bedroom multipliers in `src/config.py`.
+
+To audit the saved aggregates and run deeper scenarios without downloading raw data or installing packages:
+
+```bash
+python3 scripts/deep_analysis.py
+python3 -m unittest discover -s scripts -p 'test_deep_analysis.py'
+```
+
+Read `outputs/deep_analysis/report_ja.md` for the Japanese report. Companion CSVs contain fixed-holdings stress cases, reselected portfolios, sample-size and concentration-cap comparisons, and audit results. The analysis preserves the original outputs. Selection uses a yield-first heuristic, not a proven global optimum. The original purchase proposal violates the stated 10% supply cap in two segments; the report compares strict-cap alternatives. The legal short-term-rental threshold and platform fee assumptions also need updating before treating the original pipeline as a current-market model.
 
 ## Files
 

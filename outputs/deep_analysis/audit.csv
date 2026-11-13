@@ -1,0 +1,20 @@
+﻿check,status,detail
+unique_segment_keys,PASS,121 buyable segments
+finite_numeric_inputs,PASS,saved numeric cells
+segment_counts_positive_integer,PASS,aggregate sample counts
+occupancy_in_range,PASS,0 <= median occupancy <= 1
+revenue_quantiles_ordered,PASS,p25 <= median <= p75
+benchmark_and_bedroom_pricing,PASS,all 121 saved prices versus external CSV and config multipliers
+aggregate_join_consistency,PASS,"counts, occupancy, revenue quantiles, ratings and shares"
+recomputed_cash_in,PASS,max absolute difference 0
+recomputed_noi,PASS,max absolute difference 2.91038304567e-11
+recomputed_net_yield,PASS,max absolute difference 2.77555756156e-17
+reproduces_original_selection,PASS,"legacy max(1, floor(n/10)) capacity"
+original_budget,PASS,"9,937,951"
+original_neighbourhood_cap,PASS,39.48%
+original_supply_cap,FAIL,"[(('Riley Park', 'condo', '2'), 1, 7.0), (('Kensington-Cedar Cottage', 'condo', '1'), 1, 7.0)]"
+sensitivity_low (p25 revenue),PASS,independent recalculation
+sensitivity_base (median),PASS,independent recalculation
+sensitivity_high (p75 revenue),PASS,independent recalculation
+sensitivity_base + 2 months offline,PASS,independent recalculation
+headline_rounding,PASS,headline NOI within CAD 500; yield within 0.0005

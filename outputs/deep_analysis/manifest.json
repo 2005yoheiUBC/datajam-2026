@@ -1,0 +1,125 @@
+{
+  "analysis_date": "2026-11-12",
+  "method": "aggregate audit and deterministic scenarios; yield-first greedy selection",
+  "sources": {
+    "city": "https://vancouver.ca/doing-business/short-term-rentals.aspx",
+    "definition": "https://bylaws.vancouver.ca/consolidated/14131.PDF",
+    "airbnb": "https://www.airbnb.com/help/article/1857",
+    "gvr": "https://members.gvrealtors.ca/news/GVR-Stats-Package-October-2026.pdf"
+  },
+  "inputs": {
+    "outputs/tables/segments.csv": "3c4159290b98ab7e7cfc3eaebebd1440d1953ffa85b9137bd0efd7af133cc5e5",
+    "outputs/tables/segments_underwritten.csv": "693efaafc7cdc700d591ab14ebbdf6ea7ac389ccb9ee15c9012a79143bdf44eb",
+    "outputs/tables/filters_applied.csv": "7ab4563ef04c98a4cd6fa208574c2988accaae9a2cdb0245497d627ba1a7e482",
+    "outputs/tables/few_vs_many.csv": "12fc9a58ea593aa575f08aeb2c785b154822ddb3fa4b39135f526f21866b12b7",
+    "outputs/tables/recommended_portfolio.csv": "b7455085aed4dcd0718bd84fa3d9e6c9d2dbc9e8c79607b8c11e182d464153a9",
+    "outputs/tables/sensitivity.csv": "c24d22951406dc92d16a17ad33a172d2e63ee721d0f966e3a8cea78530871dbe",
+    "src/config.py": "03d50c235d031c5b3ac60e9a781d5e0a95f6c8bbb6c8cbc5913d6daa0a46fe82",
+    "data/external/gvr_benchmark_2026-10.csv": "54848ecdae83b85343199b0dcd9f1f2b35bb7657b0514777d2a72e7fb4b3ed2f",
+    "outputs/key_numbers.json": "f69c8badf63f09e50a47248a6e7e814f23ab74ad3393985c0ba3b4964232e322",
+    "scripts/deep_analysis.py": "58972ac3342fca2da65f206c40749b219e6c61c80b2c2bd07c90eebae8f6e1df"
+  },
+  "checks": [
+    {
+      "check": "unique_segment_keys",
+      "status": "PASS",
+      "detail": "121 buyable segments"
+    },
+    {
+      "check": "finite_numeric_inputs",
+      "status": "PASS",
+      "detail": "saved numeric cells"
+    },
+    {
+      "check": "segment_counts_positive_integer",
+      "status": "PASS",
+      "detail": "aggregate sample counts"
+    },
+    {
+      "check": "occupancy_in_range",
+      "status": "PASS",
+      "detail": "0 <= median occupancy <= 1"
+    },
+    {
+      "check": "revenue_quantiles_ordered",
+      "status": "PASS",
+      "detail": "p25 <= median <= p75"
+    },
+    {
+      "check": "benchmark_and_bedroom_pricing",
+      "status": "PASS",
+      "detail": "all 121 saved prices versus external CSV and config multipliers"
+    },
+    {
+      "check": "aggregate_join_consistency",
+      "status": "PASS",
+      "detail": "counts, occupancy, revenue quantiles, ratings and shares"
+    },
+    {
+      "check": "recomputed_cash_in",
+      "status": "PASS",
+      "detail": "max absolute difference 0"
+    },
+    {
+      "check": "recomputed_noi",
+      "status": "PASS",
+      "detail": "max absolute difference 2.91038304567e-11"
+    },
+    {
+      "check": "recomputed_net_yield",
+      "status": "PASS",
+      "detail": "max absolute difference 2.77555756156e-17"
+    },
+    {
+      "check": "reproduces_original_selection",
+      "status": "PASS",
+      "detail": "legacy max(1, floor(n/10)) capacity"
+    },
+    {
+      "check": "original_budget",
+      "status": "PASS",
+      "detail": "9,937,951"
+    },
+    {
+      "check": "original_neighbourhood_cap",
+      "status": "PASS",
+      "detail": "39.48%"
+    },
+    {
+      "check": "original_supply_cap",
+      "status": "FAIL",
+      "detail": "[(('Riley Park', 'condo', '2'), 1, 7.0), (('Kensington-Cedar Cottage', 'condo', '1'), 1, 7.0)]"
+    },
+    {
+      "check": "sensitivity_low (p25 revenue)",
+      "status": "PASS",
+      "detail": "independent recalculation"
+    },
+    {
+      "check": "sensitivity_base (median)",
+      "status": "PASS",
+      "detail": "independent recalculation"
+    },
+    {
+      "check": "sensitivity_high (p75 revenue)",
+      "status": "PASS",
+      "detail": "independent recalculation"
+    },
+    {
+      "check": "sensitivity_base + 2 months offline",
+      "status": "PASS",
+      "detail": "independent recalculation"
+    },
+    {
+      "check": "headline_rounding",
+      "status": "PASS",
+      "detail": "headline NOI within CAD 500; yield within 0.0005"
+    }
+  ],
+  "limitations": [
+    "raw data absent",
+    "no forecast probabilities",
+    "no global optimisation",
+    "principal residence requirement relaxed only as project assumption"
+  ]
+}
