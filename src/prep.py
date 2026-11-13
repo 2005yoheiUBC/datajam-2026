@@ -53,7 +53,7 @@ def clean(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     df = keep(df["price_num"].between(config.MIN_NIGHTLY_PRICE, config.MAX_NIGHTLY_PRICE), "price_in_range",
               f"outside ${config.MIN_NIGHTLY_PRICE}-${config.MAX_NIGHTLY_PRICE}/night")
     df = keep(df["minimum_nights"] <= config.MAX_MINIMUM_NIGHTS, "short_term_only",
-              "min stay >= 30 nights = monthly rental, not STR")
+              "min stay >= 90 nights = not a short-term rental (BC + Vancouver definition)")
     days = (pd.Timestamp(config.SNAPSHOT_DATE) - df["last_review"]).dt.days
     df["is_active"] = days <= config.ACTIVE_REVIEW_WINDOW_DAYS
     return df, pd.DataFrame(log)

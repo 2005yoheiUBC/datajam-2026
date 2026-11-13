@@ -1,4 +1,4 @@
 step,rows_before,removed,why
 has_price,6509,664,no price: not bookable at scrape
 price_in_range,5845,399,outside $30-$2000/night
-short_term_only,5446,1045,"min stay >= 30 nights = monthly rental, not STR"
+short_term_only,5446,999,min stay >= 90 nights = not a short-term rental (BC + Vancouver definition)

@@ -20,7 +20,7 @@ PRIVACY_DROP = ["listing_url", "host_url", "host_profile_url", "host_name", "hos
 # --- Cleaning thresholds (each one is a candidate decision-log entry) ---
 MIN_NIGHTLY_PRICE = 30          # below this is almost certainly a placeholder
 MAX_NIGHTLY_PRICE = 2_000       # above this: check by hand before dropping
-MAX_MINIMUM_NIGHTS = 29         # >=30 nights = monthly rental, not STR (BC STR definition)
+MAX_MINIMUM_NIGHTS = 89         # <90 consecutive nights = short-term rental (BC STRAA + Vancouver bylaw since 2024)
 ACTIVE_REVIEW_WINDOW_DAYS = 365 # "active" = reviewed in the year before the snapshot
 
 # --- Cost assumptions (fraction of gross revenue unless noted) ---
