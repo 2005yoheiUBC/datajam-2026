@@ -1,0 +1,11 @@
+{
+  "units": 15,
+  "cash_deployed_cad": 9938000.0,
+  "noi_2027_cad": 394000.0,
+  "net_yield_base": 0.04,
+  "net_yield_range": [
+    0.006,
+    0.065
+  ],
+  "neighbourhoods": 6
+}

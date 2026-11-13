@@ -1,0 +1,4 @@
+method,p25,median,p75,n
+rev_review_model,13416.0,37230.78,69539.435,3737.0
+rev_iab_estimate,13416.0,37231.0,69470.0,3737.0
+spearman_corr,,0.9999995183359671,,
