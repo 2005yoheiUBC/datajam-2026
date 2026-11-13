@@ -9,16 +9,15 @@ VAR_COST_SHARE = config.PLATFORM_FEE + config.MANAGEMENT_FEE + config.CLEANING_A
 
 
 def add_purchase_prices(seg: pd.DataFrame) -> pd.DataFrame:
-    """Price each segment from the GVR benchmark (type x East/West), condos scaled by bedrooms.
-    Drops segments DDD can't buy on their own (suite, other)."""
-    gvr = pd.read_csv(config.GVR_FILE)
-    s = seg[seg["bucket"].isin(config.BUCKET_TO_GVR_TYPE)].copy()
-    s["side"] = s["neighbourhood_cleansed"].map({**{n: "West" for n in config.WEST},
-                                                 **{n: "East" for n in config.EAST}})
-    s["gvr_type"] = s["bucket"].map(config.BUCKET_TO_GVR_TYPE)
-    s = s.merge(gvr, on=["side", "gvr_type"], how="left")
+    """Price = median assessed value for that neighbourhood x type (condo / house), condos scaled by bedrooms.
+    Drops what DDD can't buy on its own (suite, other) and neighbourhoods with no homes (Strathcona)."""
+    values = pd.read_csv(config.PROPERTY_VALUES_FILE)
+    s = seg[seg["bucket"].isin(config.BUCKET_TO_PROP_TYPE)].copy()
+    s["prop_type"] = s["bucket"].map(config.BUCKET_TO_PROP_TYPE)
+    s = s.merge(values[["neighbourhood_cleansed", "prop_type", "median_value"]],
+                on=["neighbourhood_cleansed", "prop_type"], how="inner")
     mult = s["bedrooms_grp"].map(config.CONDO_BEDROOM_MULTIPLIER).where(s["bucket"] == "condo", 1.0)
-    s["price_cad"] = s["benchmark_price_cad"] * mult
+    s["price_cad"] = s["median_value"] * mult
     return s
 
 

@@ -35,14 +35,9 @@ CLOSING_COSTS = 0.04                   # property transfer tax + legal, fraction
 FURNISHING_CAD = 25_000                # per property, one-off
 
 # --- Purchase prices (outside data) ---
-# Greater Vancouver REALTORS, MLS Home Price Index, October 2026 stats package (p.3-4), public PDF:
-# https://members.gvrealtors.ca/news/GVR-Stats-Package-October-2026.pdf
-GVR_FILE = EXTERNAL / "gvr_benchmark_2026-10.csv"
-BUCKET_TO_GVR_TYPE = {"condo": "Apartment", "townhouse": "Townhouse", "house": "Detached"}
+# City of Vancouver Open Data, property tax report 2026 (BC Assessment values), built by
+# scripts/build_property_values.py -> median value per neighbourhood x (condo | house)
+PROPERTY_VALUES_FILE = EXTERNAL / "property_values_2026.csv"
+BUCKET_TO_PROP_TYPE = {"condo": "condo", "townhouse": "condo", "house": "house"}  # townhouses are strata units
 # "suite" and "other" are not buyable on their own (a suite comes with a whole house) -> excluded
-CONDO_BEDROOM_MULTIPLIER = {"0": 0.7, "1": 0.85, "2": 1.15, "3+": 1.5}  # benchmark = typical unit; assumption
-# City local areas -> GVR sub-area (roughly split at Ontario St)
-WEST = ["Arbutus Ridge", "Downtown", "Dunbar Southlands", "Fairview", "Kerrisdale", "Kitsilano", "Marpole",
-        "Oakridge", "Shaughnessy", "South Cambie", "West End", "West Point Grey"]
-EAST = ["Downtown Eastside", "Grandview-Woodland", "Hastings-Sunrise", "Kensington-Cedar Cottage", "Killarney",
-        "Mount Pleasant", "Renfrew-Collingwood", "Riley Park", "Strathcona", "Sunset", "Victoria-Fraserview"]
+CONDO_BEDROOM_MULTIPLIER = {"0": 0.7, "1": 0.85, "2": 1.15, "3+": 1.5}  # median unit = typical; assumption

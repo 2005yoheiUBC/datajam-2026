@@ -1,0 +1,45 @@
+neighbourhood_cleansed,prop_type,properties,median_value
+Arbutus Ridge,condo,1584,1173900.0
+Arbutus Ridge,house,2932,3385500.0
+Downtown,condo,37457,758200.0
+Downtown,house,4,5817500.0
+Downtown Eastside,condo,4248,617500.0
+Downtown Eastside,house,536,1566000.0
+Dunbar Southlands,condo,134,2335000.0
+Dunbar Southlands,house,6117,3208000.0
+Fairview,condo,8667,878000.0
+Fairview,house,394,3996500.0
+Grandview-Woodland,condo,4386,656100.0
+Grandview-Woodland,house,2927,1843000.0
+Hastings-Sunrise,condo,767,1413000.0
+Hastings-Sunrise,house,7478,1739050.0
+Kensington-Cedar Cottage,condo,2949,1123000.0
+Kensington-Cedar Cottage,house,8426,1824000.0
+Kerrisdale,condo,904,1473000.0
+Kerrisdale,house,3156,3577000.0
+Killarney,condo,5707,792000.0
+Killarney,house,3276,2045950.0
+Kitsilano,condo,7680,988900.0
+Kitsilano,house,3870,2761500.0
+Marpole,condo,5091,818000.0
+Marpole,house,3220,2440650.0
+Mount Pleasant,condo,9781,747100.0
+Mount Pleasant,house,1433,1948000.0
+Oakridge,condo,2011,1120700.0
+Oakridge,house,2288,3509500.0
+Renfrew-Collingwood,condo,6814,578000.0
+Renfrew-Collingwood,house,8188,1786000.0
+Riley Park,condo,2103,1194000.0
+Riley Park,house,4623,2369000.0
+Shaughnessy,condo,375,1529785.0
+Shaughnessy,house,1661,4300000.0
+South Cambie,condo,2190,1024500.0
+South Cambie,house,1258,3083750.0
+Sunset,condo,975,939000.0
+Sunset,house,6474,1880000.0
+Victoria-Fraserview,condo,1065,1015000.0
+Victoria-Fraserview,house,5630,2025000.0
+West End,condo,9190,779636.0
+West End,house,228,5922950.0
+West Point Grey,condo,466,1155659.5
+West Point Grey,house,3177,3325000.0
