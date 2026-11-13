@@ -139,7 +139,7 @@ Before presenting, agree whether excluding the three costs is appropriate for th
 - Budget, cost assumptions, and bedroom multipliers: [`../src/config.py`](../src/config.py).
 - Existing pricing and selection implementation: [`../src/portfolio.py`](../src/portfolio.py).
 - Purchase benchmarks: [`../data/external/gvr_benchmark_2026-10.csv`](../data/external/gvr_benchmark_2026-10.csv), attributed by the project to the [GVR October 2026 statistics package](https://members.gvrealtors.ca/news/GVR-Stats-Package-October-2026.pdf).
-- Project scope and simulation assumptions: [`../README.md`](../README.md) and [`assumptions.md`](assumptions.md).
+- Project scope and simulation assumptions: [`../README.md`](../README.md) and [`../docs/assumptions.md`](../docs/assumptions.md).
 - Source dataset attribution: Inside Airbnb, Vancouver, June 15, 2026, CC BY 4.0, as documented in the project README. This report uses saved aggregates rather than revalidating the raw dataset.
 
 Aggregate input SHA-256 at preparation:
