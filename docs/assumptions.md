@@ -2,9 +2,7 @@
 
 | Assumption | Value | Source / reasoning | Sensitivity tested |
 |---|---|---|---|
-| Review rate (reviews per stay) | 50% | Inside Airbnb "San Francisco model" uses 50%; literature 30–70% | 30% / 70% |
-| Average length of stay | 3 nights (floored at min nights) | Inside Airbnb model default; check against your data | |
-| Occupancy cap | 70% | Prevents implausible estimates for high-review listings | |
+| Occupancy & revenue | Inside Airbnb `estimated_occupancy_l365d` / `estimated_revenue_l365d` | Their estimate from reviews, 12 months to 15 Jun 2026; not reported figures | |
 | Management fee | 20% of gross | Typical Vancouver STR managers: 15–25% | |
 | Platform fee (host side) | 3% | Airbnb split-fee host share | |
 | Property tax | ~0.3% of price | City of Vancouver residential mill rate | |

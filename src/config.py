@@ -23,11 +23,6 @@ MAX_NIGHTLY_PRICE = 2_000       # above this: check by hand before dropping
 MAX_MINIMUM_NIGHTS = 29         # >=30 nights = monthly rental, not STR (BC STR definition)
 ACTIVE_REVIEW_WINDOW_DAYS = 365 # "active" = reviewed in the year before the snapshot
 
-# --- Revenue model assumptions ---
-REVIEW_RATE = 0.50              # share of stays that leave a review (sensitivity: 0.30-0.70)
-AVG_LENGTH_OF_STAY = 3.0        # nights, floored at minimum_nights per listing
-OCCUPANCY_CAP = 0.70            # cap on modelled occupancy
-
 # --- Cost assumptions (fraction of gross revenue unless noted) ---
 PLATFORM_FEE = 0.03
 MANAGEMENT_FEE = 0.20

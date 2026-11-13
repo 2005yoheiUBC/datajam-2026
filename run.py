@@ -12,7 +12,6 @@ seg = prep.segments(listings)
 
 listings.to_csv(config.PROCESSED / "listings_clean.csv", index=False)
 filter_log.to_csv(config.TABLES / "filters_applied.csv", index=False)
-prep.validation(listings).to_csv(config.TABLES / "revenue_validation.csv", index=False)
 seg.to_csv(config.TABLES / "segments.csv", index=False)
 print(f"listings: {len(raw):,} raw -> {len(listings):,} clean -> {len(seg)} segments")
 print(filter_log.to_string(index=False))

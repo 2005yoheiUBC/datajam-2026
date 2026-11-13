@@ -1,6 +1,5 @@
 """Load -> clean -> revenue estimate per listing -> segment table.
 Every filter logs how many rows it removed so we can quote it on a slide."""
-import numpy as np
 import pandas as pd
 from . import config
 
@@ -60,27 +59,13 @@ def clean(df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     return df, pd.DataFrame(log)
 
 
-def add_revenue(df: pd.DataFrame, review_rate=config.REVIEW_RATE) -> pd.DataFrame:
-    """Review model: reviews / review rate = stays; stays x nights x price = revenue."""
+def add_revenue(df: pd.DataFrame) -> pd.DataFrame:
+    """Use Inside Airbnb's own estimates (last 365 days before the snapshot). Estimates, not reported figures."""
     df = df.copy()
-    nights_per_stay = np.maximum(config.AVG_LENGTH_OF_STAY, df["minimum_nights"])
-    nights = (df["number_of_reviews_ltm"].fillna(0) / review_rate) * nights_per_stay
-    nights = np.minimum(nights, 365 * config.OCCUPANCY_CAP)
-    df["occ_review_model"] = nights / 365
-    df["rev_review_model"] = nights * df["price_num"]
-    df["rev_iab_estimate"] = pd.to_numeric(df["estimated_revenue_l365d"], errors="coerce")
+    df["occupancy"] = df["estimated_occupancy_l365d"] / 365          # share of the year booked
+    df["revenue"] = pd.to_numeric(df["estimated_revenue_l365d"], errors="coerce")
     df["is_commercial_host"] = df["calculated_host_listings_count"] >= 3
     return df
-
-
-def validation(df: pd.DataFrame) -> pd.DataFrame:
-    """Our revenue model vs Inside Airbnb's own estimate. Agreement = sanity check for the pitch."""
-    act = df[df["is_active"]]
-    cols = ["rev_review_model", "rev_iab_estimate"]
-    rows = [{"method": c, "p25": act[c].quantile(.25), "median": act[c].median(),
-             "p75": act[c].quantile(.75), "n": int(act[c].notna().sum())} for c in cols]
-    rows.append({"method": "spearman_corr", "median": act[cols].corr(method="spearman").iloc[0, 1]})
-    return pd.DataFrame(rows)
 
 
 def segments(df: pd.DataFrame) -> pd.DataFrame:
@@ -91,10 +76,10 @@ def segments(df: pd.DataFrame) -> pd.DataFrame:
     return d.groupby(config.SEGMENT_KEYS).agg(
         n=("id", "size"),
         adr_median=("price_num", "median"),
-        occ_median=("occ_review_model", "median"),
-        rev_median=("rev_review_model", "median"),
-        rev_p25=("rev_review_model", lambda s: s.quantile(.25)),
-        rev_p75=("rev_review_model", lambda s: s.quantile(.75)),
+        occ_median=("occupancy", "median"),
+        rev_median=("revenue", "median"),
+        rev_p25=("revenue", lambda s: s.quantile(.25)),
+        rev_p75=("revenue", lambda s: s.quantile(.75)),
         rating=("review_scores_rating", "median"),
         share_commercial=("is_commercial_host", "mean"),
         share_licensed_est=("licensed", "mean"),
