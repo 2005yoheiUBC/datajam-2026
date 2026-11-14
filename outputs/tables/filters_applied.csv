@@ -1,4 +1,4 @@
 step,rows_before,removed,why
-has_price,6509,664,no price: not bookable at scrape
+has_price,6509,664,price unavailable; bookability cannot be established
 price_in_range,5845,399,outside $30-$2000/night
 short_term_only,5446,999,min stay >= 90 nights = not a short-term rental (BC + Vancouver definition)

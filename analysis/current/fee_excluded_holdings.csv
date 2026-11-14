@@ -1,0 +1,4 @@
+neighbourhood_cleansed,bucket,bedrooms_grp,units,comparables,purchase_price_each,cash_each,cash_total,revenue_each,contribution_before_three_costs,modelled_operating_income
+Downtown Eastside,condo,1,7,146,524875.0,570870.0,3996090.0,49140.0,266457.625,116826.32500000001
+Downtown,condo,1,5,365,644470.0,695248.8,3476244.0,50760.0,196632.94999999998,86229.95000000001
+West End,condo,2,2,23,896581.3999999999,957444.656,1914889.312,53466.0,82552.5116,36037.091600000014

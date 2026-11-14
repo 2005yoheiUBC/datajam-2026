@@ -1,11 +1,8 @@
 {
-  "units": 14,
-  "cash_deployed_cad": 9919000.0,
-  "noi_2027_cad": 348000.0,
-  "net_yield_base": 0.035,
-  "net_yield_range": [
-    0.004,
-    0.064
-  ],
-  "neighbourhoods": 4
+  "units": 13,
+  "cash_deployed_cad": 9638000.0,
+  "noi_2027_cad": 247000.0,
+  "net_yield_base": 0.026,
+  "neighbourhoods": 3,
+  "scenario": "15.5% platform + 20% management + 8% cleaning; constant historical revenue; no repair reserve"
 }

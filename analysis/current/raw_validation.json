@@ -1,0 +1,15 @@
+{
+  "raw_rows": 6509,
+  "clean_rows": 4447,
+  "active_entire_home_rows": 3137,
+  "segments": 186,
+  "future_review_rows": 132,
+  "missing_bedrooms_clean": 386,
+  "last_scraped_counts": {
+    "2026-06-16": 3058,
+    "2026-07-06": 2156,
+    "2026-06-15": 1295
+  },
+  "raw_sha256": "64a8bc1fa61a0923a36a609ef8caf8354b44c081d4758b82e1adec697c0b2143",
+  "segments_sha256": "67efef19df5dc1096a3bc3322cb663459ad9bf5be67148dc277d208ced54a43d"
+}

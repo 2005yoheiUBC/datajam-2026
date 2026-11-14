@@ -1,0 +1,11 @@
+{
+  "method": "tax coordinate to parcel centroid to Inside Airbnb polygon; zoning/legal-type/value filters are proxies",
+  "matched_tax_rows": 229095,
+  "selected_home_rows": 191840,
+  "unassigned_neighbourhood_rows": 253,
+  "source_sha256": {
+    "property_tax_2026.csv": "18c4ae5dff45d88362e497ae323608e02b03580b552befa13a8002d48aa52ab8",
+    "parcels.csv": "364d071f0c6ae7b4f259dc95672794c90552c5ab61a7ca214958f0e6081d3c00",
+    "neighbourhoods.geojson": "02a09372dccfb2bd205accff6d4f6225d6d500ee72f20d09c2df328e5d75fd46"
+  }
+}

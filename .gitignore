@@ -5,3 +5,8 @@ data/processed/*
 __pycache__/
 .ipynb_checkpoints/
 .DS_Store
+node_modules/
+.build/
+.codex-finalizer/
+.matplotlib/
+.chart-data-*/
