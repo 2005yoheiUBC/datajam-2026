@@ -111,6 +111,17 @@ def main():
                "gross_yield": float(alloc["revenue"].sum() / alloc["money"].sum()),
                "neighbourhoods": int(alloc["neighbourhood_cleansed"].nunique()),
                "rules": {"min_listings": MIN_N, "neighbourhood_cap": CAP, "segment_share_cap": SEG, "mix_gap": GAP}}
+    # 2027 scenarios: the median revenue moved up/down for the whole portfolio
+    summary["scenarios_2027"] = {name: {"revenue": summary["revenue"] * f, "gross_yield": summary["gross_yield"] * f}
+                                 for name, f in [("revenue_minus20", 0.8), ("base", 1.0), ("revenue_plus10", 1.1)]}
+    # Decision 3 comparison: the older cost-based model (src/analysis.py -> analysis/current/holdings.csv)
+    old = pd.read_csv(ROOT / "analysis/current/holdings.csv")
+    summary["old_cost_based_model"] = {
+        "units": int(old["units"].sum()),
+        "revenue": float((old["units"] * old["revenue_each"]).sum()),
+        "money_spent": float((old["units"] * old["purchase_price_each"]).sum())}
+    summary["concentration_downtown_core"] = float(
+        alloc.loc[alloc["neighbourhood_cleansed"].isin(["Downtown", "Downtown Eastside"]), "money"].sum() / BUDGET)
     (OUT / "summary.json").write_text(json.dumps(summary, indent=2))
     print(alloc.to_string(index=False)); print(json.dumps(summary, indent=2))
 

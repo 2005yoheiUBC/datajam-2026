@@ -10,5 +10,25 @@
     "neighbourhood_cap": 0.4,
     "segment_share_cap": 0.1,
     "mix_gap": 0.01
-  }
+  },
+  "scenarios_2027": {
+    "revenue_minus20": {
+      "revenue": 611980.8,
+      "gross_yield": 0.061984728185400934
+    },
+    "base": {
+      "revenue": 764976.0,
+      "gross_yield": 0.07748091023175116
+    },
+    "revenue_plus10": {
+      "revenue": 841473.6000000001,
+      "gross_yield": 0.08522900125492629
+    }
+  },
+  "old_cost_based_model": {
+    "units": 13,
+    "revenue": 691368.0,
+    "money_spent": 8842975.0
+  },
+  "concentration_downtown_core": 0.7351395
 }

@@ -33,6 +33,8 @@ const occ = readCsv("condo_occupancy.csv");
 const summary = JSON.parse(fs.readFileSync(path.join(FINAL, "summary.json"), "utf8"));
 
 const MIN_N = summary.rules.min_listings;
+const OLD = summary.old_cost_based_model;
+const SC = summary.scenarios_2027;
 const money = (v) => (v >= 1e6 ? `$${(v / 1e6).toFixed(2)}M` : `$${Math.round(v / 1e3)}K`);
 const pct = (v, d = 1) => `${(v * 100).toFixed(d)}%`;
 const bed = (b) => (b === "3+" ? "3+ bed" : `${b}-bed`);
@@ -109,7 +111,7 @@ pres.addSection({ title: "Decision" });
     [money(summary.money_spent), "invested of the $10M"],
     [`${summary.units}`, "condos, all bought outright"],
     [money(summary.revenue), "revenue per year"],
-    [pct(summary.gross_yield, 2), "revenue ÷ purchase price"],
+    [pct(summary.gross_yield, 1), "revenue ÷ purchase price"],
   ];
   stats.forEach(([big, label], i) => {
     const x = 0.6 + i * 2.25;
@@ -117,7 +119,7 @@ pres.addSection({ title: "Decision" });
     s.addText(big, { x: x + 0.15, y: 3.25, w: 1.7, h: 0.7, fontSize: 30, bold: true, color: C.background1, margin: 0, isTextBox: true, objectName: `stat-value-${i + 1}` });
     s.addText(label, { x: x + 0.15, y: 3.95, w: 1.7, h: 0.5, fontSize: 12, color: C.background2, margin: 0, valign: "top", isTextBox: true, objectName: `stat-label-${i + 1}` });
   });
-  s.addNotes(`[0:40] Our answer first. With the $10M we buy ${summary.units} condos in ${summary.neighbourhoods} neighbourhoods: Downtown Eastside, Downtown and Kitsilano. We spend ${money(summary.money_spent)} and expect about ${money(summary.revenue)} of revenue a year, which is ${pct(summary.gross_yield, 2)} of what we pay. The rest of the talk shows the decisions behind this and why we made them.`);
+  s.addNotes(`[0:40] Our answer first. With the $10M we buy ${summary.units} condos in ${summary.neighbourhoods} neighbourhoods: Downtown Eastside, Downtown and Kitsilano. We spend ${money(summary.money_spent)} and expect about ${money(summary.revenue)} of revenue a year, which is ${pct(summary.gross_yield, 1)} of what we pay. The rest of the talk shows the decisions behind this and why we made them.`);
 }
 
 // 2. Where the money goes
@@ -141,7 +143,7 @@ pres.addSection({ title: "Decision" });
   });
   s.addText([
     { text: "Total  ", options: { bold: true, color: C.text2 } },
-    { text: `${summary.units} condos · ${money(summary.money_spent)} spent (${money(summary.unspent)} left) · ${money(summary.revenue)} revenue a year · ${pct(summary.gross_yield, 2)} revenue ÷ price`, options: { color: C.text1 } },
+    { text: `${summary.units} condos · ${money(summary.money_spent)} spent (${money(summary.unspent)} left) · ${money(summary.revenue)} revenue a year · ${pct(summary.gross_yield, 1)} revenue ÷ price`, options: { color: C.text1 } },
   ], { x: 0.5, y: 4.3, w: 9.0, h: 0.4, fontSize: 14, margin: 0, isTextBox: true, objectName: "total-line" });
   s.addText("Revenue = median of comparable listings, last 12 months, assumed for 2027. Price = 2026 assessed value. Operating costs not included.",
     { x: 0.5, y: 4.7, w: 9.0, h: 0.35, fontSize: 10, color: C.accent3, margin: 0, isTextBox: true, objectName: "basis-note" });
@@ -153,7 +155,6 @@ pres.addSection({ title: "Decision" });
   const s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Decision" });
   s.addText("Three decisions shaped the portfolio", { placeholder: "title" });
   const condoLow = Math.min(...condos.map((c) => c.gross_yield)), condoHigh = Math.max(...condos.map((c) => c.gross_yield));
-  const mixed = alloc.filter((a) => a.neighbourhood_cleansed === "Downtown").length > 1;
   const H = { bold: true, color: C.background1, fill: { color: C.text2 }, fontSize: 14, valign: "middle" };
   const cell = (t, o = {}) => ({ text: t, options: Object.assign({ fontSize: 14, color: C.text1, valign: "middle" }, o) });
   const rows = [
@@ -162,11 +163,11 @@ pres.addSection({ title: "Decision" });
       cell(`Every condo option ${pct(condoLow)}+ vs best house ${pct(bestHouse.gross_yield)} (revenue ÷ price)`)],
     [cell(`2  Trust only options with ${MIN_N}+ listings`, { bold: true, color: C.text2 }), cell(`A median from 20 listings is ±${pct(err(20), 0)} off; from ${MIN_N}, ±${pct(err(MIN_N), 0)}`),
       cell("West End 2-bed (23 listings) out; Kitsilano 1-bed (31) in")],
-    [cell("3  Max 40% per neighbourhood; mix near-tied sizes", { bold: true, color: C.text2 }), cell("Limit one-area exposure; Downtown 1- vs 2-bed gap is within data noise"),
-      cell(`Spread over ${summary.neighbourhoods} neighbourhoods${mixed ? "; mixing costs ~1.4% of revenue" : ""}`)],
+    [cell("3  Rank by revenue ÷ price", { bold: true, color: C.text2 }), cell("Revenue alone favours big, expensive units; net yield needs costs the brief doesn't give"),
+      cell(`${summary.units} units, ${money(summary.revenue)}/yr vs ${OLD.units} units, ${money(OLD.revenue)}/yr in our earlier cost-based model`)],
   ];
   s.addTable(rows, { x: 0.5, y: 1.25, w: 9.0, colW: [2.9, 3.05, 3.05], rowH: [0.45, 0.95, 0.95, 0.95], border: { type: "solid", pt: 0.75, color: "D5DDE0" }, margin: [0.06, 0.12, 0.06, 0.12], objectName: "decision-log" });
-  s.addNotes("[1:30] These are our three main decisions. One: condos only, because houses earn similar revenue but cost two to three times more. Two: we only trust a number if at least 30 listings stand behind it. Below that, a typical listing's revenue can be off by 15 to 20 percent. Three: no neighbourhood gets more than 40% of the money, and when two unit sizes are nearly tied we buy both, which gives us couples and families as guests.");
+  s.addNotes("[1:30] These are our three main decisions. One: condos only, because houses earn similar revenue but cost two to three times more. Two: we only trust a number if at least 30 listings stand behind it. Below that, a typical listing's revenue can be off by 15 to 20 percent. Three: we rank by revenue divided by price. Our earlier model ranked after assumed costs and bought 13 units; switching brought in more Downtown 1-beds and raised revenue to about 765 thousand.");
 }
 
 // ---------- Section 2: why ----------
@@ -198,23 +199,25 @@ pres.addSection({ title: "Why" });
 // 5. Data & assumptions
 {
   const s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Why" });
-  s.addText("Two public datasets, five stated assumptions", { placeholder: "title" });
+  s.addText("Two public datasets, stated assumptions and limits", { placeholder: "title" });
   s.addText("From 6,509 listings to the ones we can trust", { x: 0.5, y: 1.2, w: 5.2, h: 0.35, fontSize: 14, bold: true, color: C.text2, margin: 0, isTextBox: true, objectName: "funnel-title" });
-  img(s, "funnel", 0.5, 1.55, 5.3, 3.3);
+  img(s, "funnel", 0.5, 1.55, 5.3, 2.95);
+  s.addText("Checks: dropped no-price and $30–$2,000 outliers; 132 reviews dated after the snapshot ignored; 386 listings with no bedroom count treated as 1-bed.",
+    { x: 0.5, y: 4.5, w: 5.3, h: 0.5, fontSize: 10, color: "6B757B", margin: 0, valign: "top", isTextBox: true, objectName: "data-checks" });
   s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 6.0, y: 1.2, w: 3.5, h: 3.6, rectRadius: 0.08, fill: { color: C.background2 }, line: { type: "none" }, objectName: "assumption-card" });
   s.addText([
-    { text: "Sources", options: { bold: true, color: C.text2, breakLine: true } },
-    { text: "Inside Airbnb: revenue, bookings", options: { breakLine: true } },
-    { text: "City of Vancouver tax data: prices", options: { breakLine: true } },
-    { text: " ", options: { fontSize: 6, breakLine: true } },
     { text: "Assumptions", options: { bold: true, color: C.text2, breakLine: true } },
     { text: "2027 revenue = last 12 months", options: { bullet: true, breakLine: true } },
-    { text: "Bookings estimated from reviews", options: { bullet: true, breakLine: true } },
     { text: "Price = 2026 assessed value", options: { bullet: true, breakLine: true } },
     { text: "Condo price × bedrooms: 0.85 / 1.15 / 1.5", options: { bullet: true, breakLine: true } },
-    { text: "No operating costs", options: { bullet: true } },
+    { text: "No operating costs (not given)", options: { bullet: true, breakLine: true } },
+    { text: " ", options: { fontSize: 6, breakLine: true } },
+    { text: "Limitations", options: { bold: true, color: C.text2, breakLine: true } },
+    { text: "Bookings estimated from reviews", options: { bullet: true, breakLine: true } },
+    { text: "Nightly prices from one day in June", options: { bullet: true, breakLine: true } },
+    { text: "Assessed value ≠ asking price", options: { bullet: true } },
   ], { x: 6.2, y: 1.35, w: 3.15, h: 3.35, fontSize: 13, color: C.text1, paraSpaceAfter: 3, valign: "top", margin: 0, isTextBox: true, objectName: "assumption-list" });
-  s.addNotes("[1:15] We use two public datasets: Inside Airbnb for revenue and bookings, and the City of Vancouver's 2026 tax data for purchase prices. We keep short-term, active, whole-home listings DDD could actually copy, which leaves 1,120 condo listings we can trust. Our main assumptions: 2027 looks like the last 12 months; bookings are estimated from reviews; prices are assessed values; and because the tax data has no bedroom counts, we scale condo prices by bedrooms. [7-min version: say only the two sources and the bedroom assumption.]");
+  s.addNotes("[1:00] We use two public datasets: Inside Airbnb for revenue and bookings, and the City of Vancouver's 2026 tax data for purchase prices. We keep short-term, active, whole-home listings DDD could actually copy, which leaves 1,120 condo listings we can trust. Our main assumptions: 2027 looks like the last 12 months; bookings are estimated from reviews; prices are assessed values; and because the tax data has no bedroom counts, we scale condo prices by bedrooms. The main limits: bookings are estimated from reviews, and prices come from one June day. [7-min version: say only the two sources, the bedroom assumption and the review-based estimate.]");
 }
 
 // 6. Condos vs houses
@@ -256,11 +259,111 @@ pres.addSection({ title: "Why" });
   const units = (o) => { const a = alloc.find((x) => x.neighbourhood_cleansed === o.neighbourhood_cleansed && x.bedrooms_grp === o.bedrooms_grp); return a ? a.units : 0; };
   const labels = condos.map((o) => `${o.neighbourhood_cleansed} ${bed(o.bedrooms_grp)}${units(o) ? ` · ${units(o)} bought` : ""}`);
   img(s, "ranking", 4.4, 1.15, 5.1, 3.85);
-  s.addNotes("[1:15] Here's how the allocation works. We rank the eight condo options we trust. We buy from the top: Downtown Eastside 1-beds until the 40% cap. Then Downtown, where 1-beds and 2-beds are nearly tied, so we alternate. Then Kitsilano until the money runs out. Downtown 3-beds and Downtown Eastside 2-beds are skipped because they're clearly worse than the best size in their own area.");
+  s.addNotes("[1:00] Here's how the allocation works. We rank the eight condo options we trust. We buy from the top: Downtown Eastside 1-beds until the 40% cap. Then Downtown, where 1-beds and 2-beds are nearly tied, so we alternate. Then Kitsilano until the money runs out. Downtown 3-beds and Downtown Eastside 2-beds are skipped because they're clearly worse than the best size in their own area.");
+}
+
+// ---------- Section 3: outlook ----------
+pres.addSection({ title: "Outlook" });
+
+// 8. 2027 performance
+{
+  const s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Outlook" });
+  s.addText(`We expect about ${money(SC.base.revenue)} of revenue in 2027`, { placeholder: "title" });
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.5, y: 1.2, w: 3.6, h: 1.85, rectRadius: 0.08, fill: { color: C.background2 }, line: { type: "none" }, objectName: "expected-card" });
+  s.addText([
+    { text: money(SC.base.revenue), options: { fontSize: 36, bold: true, color: C.accent1, breakLine: true } },
+    { text: `${pct(SC.base.gross_yield)} of the purchase price`, options: { fontSize: 14, color: C.text1, breakLine: true } },
+    { text: `Range: ${money(SC.revenue_minus20.revenue)} (revenue −20%) to ${money(SC.revenue_plus10.revenue)} (+10%)`, options: { fontSize: 12, color: C.text1 } },
+  ], { x: 0.7, y: 1.3, w: 3.25, h: 1.65, margin: 0, valign: "middle", isTextBox: true, objectName: "expected-value" });
+  img(s, "scenarios_2027", 4.4, 1.15, 5.1, 1.95);
+  const card = (x, head, items, key) => {
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 3.25, w: 4.4, h: 1.8, rectRadius: 0.08, fill: { color: C.background2 }, line: { type: "none" }, objectName: `${key}-card` });
+    s.addText([{ text: head, options: { bold: true, color: C.text2, breakLine: true } },
+      ...items.map((t, i) => ({ text: t, options: { bullet: true, breakLine: i < items.length - 1 } }))],
+    { x: x + 0.2, y: 3.35, w: 4.0, h: 1.6, fontSize: 13, color: C.text1, paraSpaceAfter: 3, valign: "top", margin: 0, isTextBox: true, objectName: `${key}-list` });
+  };
+  card(0.5, "Could push it down", ["Slow start: new listings have no reviews; January is low season", "Licence or registration delays: listing removed", "Tourism dip hits all units at once"], "down");
+  card(5.1, "Could push it up", ["Fewer unlicensed competitors (3,248 licences for 4,969 listings, Apr 2026)", "Professional management beats the median listing", "Conventions and cruise season downtown"], "up");
+  s.addNotes(`[1:00] For 2027 we expect about ${money(SC.base.revenue)} of revenue, ${pct(SC.base.gross_yield)} of what we pay. That's the median comparable listing, carried forward. If revenue is 20% lower we still get about ${money(SC.revenue_minus20.revenue)}; 10% higher gives about ${money(SC.revenue_plus10.revenue)}. What could push it down: a slow start, licence delays, or a tourism dip. What could push it up: fewer unlicensed competitors, good management, and big events downtown.`);
+}
+
+// 9. Caveats and risks
+{
+  const s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Outlook" });
+  s.addText("Caveats and risks, and how we reduce them", { placeholder: "title" });
+  const H = { bold: true, color: C.background1, fill: { color: C.text2 }, fontSize: 14, valign: "middle" };
+  const cell = (t, o = {}) => ({ text: t, options: Object.assign({ fontSize: 14, color: C.text1, valign: "middle" }, o) });
+  const tag = (t) => cell(t, { bold: true, color: C.accent1 });
+  const minRev = Math.min(...alloc.map((a) => a.revenue_each)), maxRev = Math.max(...alloc.map((a) => a.revenue_each));
+  const rows = [
+    [cell("", H), cell("What", H), cell("Mitigation", H)],
+    [tag("Caveat"), cell(`Each unit earns modest revenue (${money(minRev)}–${money(maxRev)}/yr), and there are ${summary.units} units to manage`),
+      cell("Per dollar it earns more; one management company runs all units")],
+    [tag("Caveat"), cell("Revenue and bookings are estimates; June prices may run high"),
+      cell(`Use the median, not the average; plan for the −20% case (${money(SC.revenue_minus20.revenue)}); track revenue monthly`)],
+    [tag("Risk"), cell(`${pct(summary.concentration_downtown_core, 0)} of the money is in Downtown + Downtown Eastside`),
+      cell("Max 40% per neighbourhood; Kitsilano adds spread")],
+  ];
+  s.addTable(rows, { x: 0.5, y: 1.25, w: 9.0, colW: [1.2, 3.9, 3.9], rowH: [0.42, 0.85, 0.85, 0.85], border: { type: "solid", pt: 0.75, color: "D5DDE0" }, margin: [0.06, 0.12, 0.06, 0.12], objectName: "risk-table" });
+  s.addText("Opt-out: unlikely for Vancouver, which needs 3%+ rental vacancy for two years. If it happened (from 1 June 2027), it would add competitors, not change our own rules.",
+    { x: 0.5, y: 4.7, w: 9.0, h: 0.45, fontSize: 11, color: "6B757B", margin: 0, valign: "top", isTextBox: true, objectName: "optout-note" });
+  s.addNotes(`[1:00] Two caveats and one risk. Caveat one: each unit earns modest revenue, and 15 units is more to manage. That's the few-versus-many trade-off; per dollar, many modest units earn more, and one manager runs them all. Caveat two: our revenue is an estimate, so we use the median and plan for a 20% lower case. The main risk is concentration: ${pct(summary.concentration_downtown_core, 0)} of the money is downtown, which our 40% cap and Kitsilano units partly offset.`);
+}
+
+// 10. Implementation
+{
+  const s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Outlook" });
+  s.addText("Next steps: three things before 1 January 2027", { placeholder: "title" });
+  const steps = [
+    ["1", "Before buying", "Check the building's rules allow short-term rentals"],
+    ["2", "Before 1 Jan 2027", "City business licence and provincial registration for every unit"],
+    ["3", "1 Jan 2027", `All ${summary.units} units go live`],
+  ];
+  steps.forEach(([n, when, what], i) => {
+    const x = 0.5 + i * 3.08, w = 2.84;
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 1.25, w, h: 1.75, rectRadius: 0.08, fill: { color: C.background2 }, line: { type: "none" }, objectName: `next-card-${n}` });
+    s.addShape(pres.shapes.OVAL, { x: x + 0.2, y: 1.4, w: 0.45, h: 0.45, fill: { color: C.accent1 }, line: { type: "none" }, objectName: `next-dot-${n}` });
+    s.addText(n, { x: x + 0.2, y: 1.4, w: 0.45, h: 0.45, fontSize: 14, bold: true, color: C.background1, align: "center", valign: "middle", margin: 0, isTextBox: true, objectName: `next-num-${n}` });
+    s.addText(when, { x: x + 0.8, y: 1.4, w: w - 1.0, h: 0.45, fontSize: 14, bold: true, color: C.text2, valign: "middle", margin: 0, isTextBox: true, objectName: `next-when-${n}` });
+    s.addText(what, { x: x + 0.2, y: 2.0, w: w - 0.4, h: 0.9, fontSize: 14, color: C.text1, valign: "top", margin: 0, isTextBox: true, objectName: `next-what-${n}` });
+  });
+  s.addText([
+    { text: "How we know it's working  ", options: { bold: true, color: C.text2 } },
+    { text: `monthly revenue on track for about ${money(SC.base.revenue)} a year; if behind, adjust prices first.`, options: { color: C.text1 } },
+  ], { x: 0.5, y: 3.25, w: 9.0, h: 0.45, fontSize: 14, margin: 0, isTextBox: true, objectName: "monitoring" });
+  s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 0.5, y: 3.9, w: 9.0, h: 1.1, rectRadius: 0.08, fill: { color: C.background1 }, line: { color: "D5DDE0", width: 0.75 }, objectName: "ai-card" });
+  s.addText([
+    { text: "AI use  ", options: { bold: true, color: C.text2 } },
+    { text: "We used Claude to help write code, run analysis and draft slides. We checked it by re-running every number from code in our GitHub repo, hand-checking the allocation ($10M budget, 40% cap), and testing key choices against alternatives.", options: { color: C.text1 } },
+  ], { x: 0.7, y: 3.98, w: 8.6, h: 0.95, fontSize: 12, margin: 0, valign: "middle", isTextBox: true, objectName: "ai-disclosure" });
+  s.addNotes("[0:45] Three steps before launch. Before buying each condo, check the building allows short-term rentals. Before January 1, get the City licence and provincial registration for every unit, because without them the listing is removed. Then all 15 go live. We'll know it's working if monthly revenue tracks our plan; if not, we adjust prices first. We used AI to help with code and slides, and checked it by re-running every number from our repo.");
 }
 
 // ---------- Appendix ----------
 pres.addSection({ title: "Appendix" });
+{
+  const s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Appendix" });
+  s.addText("Decision log", { placeholder: "title" });
+  const H = { bold: true, color: C.background1, fill: { color: C.text2 }, fontSize: 12, valign: "middle" };
+  const cell = (t, o = {}) => ({ text: t, options: Object.assign({ fontSize: 12, color: C.text1, valign: "middle" }, o) });
+  const condoLow = Math.min(...condos.map((c) => c.gross_yield));
+  const rows = [
+    [cell("Decision", H), cell("Alternatives compared", H), cell("Evidence", H), cell("What changed", H)],
+    [cell("1  Condos only", { bold: true, color: C.text2 }), cell("Condos and houses together"),
+      cell(`Similar revenue; houses cost 2‑3× more. Every condo option ${pct(condoLow)}+ vs best house ${pct(bestHouse.gross_yield)}`),
+      cell(`All ${summary.units} units are condos; no houses`)],
+    [cell(`2  Trust options with ${MIN_N}+ listings`, { bold: true, color: C.text2 }), cell("5, 10, 20, 50 listings"),
+      cell(`Resampling: a median from 20 listings is ±${pct(err(20), 0)} off; from ${MIN_N}, ±${pct(err(MIN_N), 0)}; from 50, ±${pct(err(50), 0)}`),
+      cell("West End 2-bed (23 listings) dropped; Kitsilano 1-bed (31) came in")],
+    [cell("3  Rank by revenue ÷ price", { bold: true, color: C.text2 }), cell("Revenue alone; net yield after assumed costs"),
+      cell("Revenue alone favours expensive units (1 Downtown 3+ bed earns less than 2 Downtown Eastside 1-beds); costs not given in the brief"),
+      cell(`${OLD.units} → ${summary.units} units; ${money(OLD.revenue)} → ${money(summary.revenue)} revenue/yr; more Downtown 1-beds`)],
+  ];
+  s.addTable(rows, { x: 0.5, y: 1.2, w: 9.0, colW: [1.9, 1.9, 2.9, 2.3], rowH: [0.38, 0.95, 0.95, 1.05], border: { type: "solid", pt: 0.75, color: "D5DDE0" }, margin: [0.05, 0.1, 0.05, 0.1], objectName: "decision-log-full" });
+  s.addText("Also: max 40% of $10M per neighbourhood; sizes within 1 point of an area's best share the money; max 10% of an option's listings.",
+    { x: 0.5, y: 4.85, w: 9.0, h: 0.3, fontSize: 10, color: "6B757B", margin: 0, isTextBox: true, objectName: "other-rules" });
+  s.addNotes("Decision log for the judges: each decision with the alternatives we compared, the evidence, and what changed.");
+}
 {
   const s = pres.addSlide({ masterName: "CONTENT", sectionTitle: "Appendix" });
   s.addText(`Backup: ${MIN_N} listings keep a typical error near ±${pct(err(MIN_N), 0)}`, { placeholder: "title" });

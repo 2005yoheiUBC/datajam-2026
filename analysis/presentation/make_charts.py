@@ -89,3 +89,16 @@ oc["label"] = oc.neighbourhood_cleansed + " (" + oc.listings.astype(str) + " lis
 oc["kind"] = ["top"] + ["rest"] * (len(oc) - 1)
 save(hbar(oc, "occupancy", "label", "kind", ".0%", list(oc.label), legend=False, colors=(["top", "rest"], [TEAL, GREY])), "occupancy", 5.9, 3.85, 205)
 print("charts written to", OUT)
+
+# 7. 2027 scenarios
+sc = json.loads((FINAL / "summary.json").read_text())["scenarios_2027"]
+sd = pd.DataFrame([{"case": "Revenue −20%", "revenue": sc["revenue_minus20"]["revenue"], "kind": "alt"},
+                   {"case": "Expected (median)", "revenue": sc["base"]["revenue"], "kind": "base"},
+                   {"case": "Revenue +10%", "revenue": sc["revenue_plus10"]["revenue"], "kind": "alt"}])
+sd["label"] = sd.revenue.map(lambda v: f"${v / 1e3:,.0f}K")
+sb = alt.Chart(sd).encode(x=alt.X("case:N", sort=list(sd.case), title=None, axis=alt.Axis(labelAngle=0)),
+                          y=alt.Y("revenue:Q", axis=None, scale=alt.Scale(domain=[0, sd.revenue.max() * 1.2])))
+scen = (sb.mark_bar(cornerRadiusEnd=3, width={"band": 0.55}).encode(color=alt.Color("kind:N", scale=alt.Scale(domain=["base", "alt"], range=[TEAL, GREY]), legend=None))
+        + sb.mark_text(dy=-9, fontSize=14, fontWeight="bold", color=INK).encode(text="label:N"))
+save(scen, "scenarios_2027", 4.7, 2.0, 0)
+print("scenario chart written")
