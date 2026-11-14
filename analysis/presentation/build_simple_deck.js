@@ -71,6 +71,15 @@ pres.defineSlideMaster({
     { text: { text: CREDIT, options: { x: 0.6, y: 5.2, w: 8.8, h: 0.25, fontSize: 9, color: C.accent3, margin: 0 } } },
   ],
 });
+pres.defineSlideMaster({ title: "TITLE", background: { color: C.text2 }, objects: [] });
+pres.defineSlideMaster({
+  title: "EXEC",
+  background: { color: C.text2 },
+  objects: [
+    { placeholder: { options: { name: "title", type: "title", x: 0.5, y: 0.3, w: 9.0, h: 0.75, fontSize: 28, bold: true, color: C.background1, valign: "middle", align: "left", margin: 0 }, text: "" } },
+    { text: { text: CREDIT, options: { x: 0.5, y: 5.25, w: 8.2, h: 0.25, fontSize: 9, color: C.accent3, margin: 0 } } },
+  ],
+});
 pres.defineSlideMaster({
   title: "CONTENT",
   background: { color: C.background1 },
@@ -102,24 +111,53 @@ function img(slide, name, x, y, w, h) {
 // ---------- Section 1: the decision ----------
 pres.addSection({ title: "Decision" });
 
-// 1. Title + answer
+// 0. Title slide (blocky band motif)
 {
-  const s = pres.addSlide({ masterName: "DARK", sectionTitle: "Decision" });
-  s.addText(`Buy ${summary.units} condos in ${summary.neighbourhoods} Vancouver neighbourhoods`, { placeholder: "title" });
-  s.addText("DDD's $10M short-term rental portfolio · DataJam 2026", { placeholder: "body" });
+  const s = pres.addSlide({ masterName: "TITLE", sectionTitle: "Decision" });
+  s.addText("DATA-DRIVEN DEVELOPMENTS · $10M SHORT-TERM RENTAL PORTFOLIO", { x: 0.7, y: 0.55, w: 8.6, h: 0.35, fontSize: 12, bold: true, charSpacing: 3, color: C.accent4, margin: 0, isTextBox: true, objectName: "kicker" });
+  s.addText("Vancouver", { x: 0.7, y: 0.95, w: 8.6, h: 1.0, fontSize: 60, bold: true, color: C.background1, margin: 0, isTextBox: true, objectName: "title-line-1" });
+  s.addText("Condo Portfolio", { x: 0.7, y: 1.85, w: 8.6, h: 1.0, fontSize: 60, bold: true, color: C.accent6, margin: 0, isTextBox: true, objectName: "title-line-2" });
+  // band: one teal block with stepped squares on its top edge
+  const B = 0.45, top = 3.75;
+  s.addShape(pres.shapes.RECTANGLE, { x: 0, y: top, w: 10, h: 5.625 - top, fill: { color: C.accent1 }, line: { type: "none" }, objectName: "band" });
+  [[0.9, 0], [4.95, 0], [5.4, 1], [8.1, 0], [8.55, 0], [8.55, 1], [9.0, 2], [9.45, 3]].forEach(([x, row], i) =>
+    s.addShape(pres.shapes.RECTANGLE, { x, y: top + row * B, w: B, h: B, fill: { color: C.text2 }, line: { type: "none" }, objectName: `block-dark-${i}` }));
+  [[2.25, -1], [6.75, -1], [7.2, -1], [7.65, 0]].forEach(([x, row], i) =>
+    s.addShape(pres.shapes.RECTANGLE, { x, y: top + row * B, w: B, h: B, fill: { color: C.accent1, transparency: 35 }, line: { type: "none" }, objectName: `block-light-${i}` }));
+  s.addText("DataJam 2026", { x: 0.7, y: 4.35, w: 5, h: 0.55, fontSize: 28, bold: true, color: C.background1, margin: 0, isTextBox: true, objectName: "event" });
+  s.addText("Douglas Gang", { x: 0.7, y: 4.9, w: 5, h: 0.4, fontSize: 18, color: C.background1, margin: 0, isTextBox: true, objectName: "team" });
+  s.addNotes("[0:10] We're Douglas Gang. Here's how DDD should invest its $10M.");
+}
+
+// 1. Executive summary
+{
+  const s = pres.addSlide({ masterName: "EXEC", sectionTitle: "Decision" });
+  s.addText("Executive summary", { placeholder: "title" });
   const stats = [
-    [money(summary.money_spent), "invested of the $10M"],
-    [`${summary.units}`, "condos, all bought outright"],
-    [money(summary.revenue), "revenue per year"],
+    [`${summary.units}`, `condos in ${summary.neighbourhoods} neighbourhoods`],
+    [money(summary.money_spent), "of the $10M invested"],
+    [money(summary.revenue), "expected 2027 revenue"],
     [pct(summary.gross_yield, 1), "revenue ÷ purchase price"],
   ];
   stats.forEach(([big, label], i) => {
-    const x = 0.6 + i * 2.25;
-    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 3.1, w: 2.0, h: 1.5, rectRadius: 0.08, fill: { color: C.background1, transparency: 88 }, line: { type: "none" }, objectName: `stat-card-${i + 1}` });
-    s.addText(big, { x: x + 0.15, y: 3.25, w: 1.7, h: 0.7, fontSize: 30, bold: true, color: C.background1, margin: 0, isTextBox: true, objectName: `stat-value-${i + 1}` });
-    s.addText(label, { x: x + 0.15, y: 3.95, w: 1.7, h: 0.5, fontSize: 12, color: C.background2, margin: 0, valign: "top", isTextBox: true, objectName: `stat-label-${i + 1}` });
+    const x = 0.5 + i * 2.3;
+    s.addShape(pres.shapes.ROUNDED_RECTANGLE, { x, y: 1.2, w: 2.1, h: 1.2, rectRadius: 0.08, fill: { color: C.background1, transparency: 88 }, line: { type: "none" }, objectName: `stat-card-${i + 1}` });
+    s.addText(big, { x: x + 0.15, y: 1.28, w: 1.8, h: 0.6, fontSize: 28, bold: true, color: C.background1, margin: 0, isTextBox: true, objectName: `stat-value-${i + 1}` });
+    s.addText(label, { x: x + 0.15, y: 1.88, w: 1.8, h: 0.4, fontSize: 12, color: C.background2, margin: 0, valign: "top", isTextBox: true, objectName: `stat-label-${i + 1}` });
   });
-  s.addNotes(`[0:40] Our answer first. With the $10M we buy ${summary.units} condos in ${summary.neighbourhoods} neighbourhoods: Downtown Eastside, Downtown and Kitsilano. We spend ${money(summary.money_spent)} and expect about ${money(summary.revenue)} of revenue a year, which is ${pct(summary.gross_yield, 1)} of what we pay. The rest of the talk shows the decisions behind this and why we made them.`);
+  const hoods = [...new Set(alloc.map((a) => a.neighbourhood_cleansed))].join(", ").replace(/, ([^,]*)$/, " and $1");
+  const rows = [
+    ["Recommendation", `Buy ${summary.units} condos (1- and 2-bed) in ${hoods}`],
+    ["Why", "Houses earn similar revenue but cost 2‑3× more; we rank by revenue ÷ price and trust only options with 30+ listings"],
+    ["2027", `About ${money(SC.base.revenue)} of revenue; ${money(SC.revenue_minus20.revenue)} if revenue is 20% lower`],
+    ["Watch", `${pct(summary.concentration_downtown_core, 0)} of the money is downtown; licences and strata approval needed before 1 Jan 2027`],
+  ];
+  rows.forEach(([k, v], i) => {
+    const y = 2.7 + i * 0.58;
+    s.addText(k, { x: 0.5, y, w: 1.9, h: 0.5, fontSize: 14, bold: true, color: C.accent4, margin: 0, valign: "middle", isTextBox: true, objectName: `exec-key-${i + 1}` });
+    s.addText(v, { x: 2.4, y, w: 7.1, h: 0.5, fontSize: 14, color: C.background1, margin: 0, valign: "middle", isTextBox: true, objectName: `exec-val-${i + 1}` });
+  });
+  s.addNotes(`[0:45] In one slide: we recommend ${summary.units} condos in ${hoods}, spending ${money(summary.money_spent)}. We expect about ${money(SC.base.revenue)} of revenue in 2027, ${pct(summary.gross_yield, 1)} of what we pay, and about ${money(SC.revenue_minus20.revenue)} even if revenue is 20% lower. Condos win because houses earn similar revenue but cost two to three times more. The main things to watch: most of the money is downtown, and every unit needs its licence and strata approval before launch.`);
 }
 
 // 2. Where the money goes
