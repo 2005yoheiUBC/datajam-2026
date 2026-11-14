@@ -24,7 +24,7 @@ MAX_MINIMUM_NIGHTS = 89         # <90 consecutive nights = short-term rental (BC
 ACTIVE_REVIEW_WINDOW_DAYS = 365 # "active" = reviewed in the year before the snapshot
 
 # --- Cost assumptions (fraction of gross revenue unless noted) ---
-PLATFORM_FEE = 0.03
+PLATFORM_FEE = 0.155  # Airbnb single-host-fee scenario; checked 2026-11-13, help/article/1857.
 MANAGEMENT_FEE = 0.20
 CLEANING_AND_SUPPLIES = 0.08
 LICENCE_AND_REGISTRATION_CAD = 1_500   # per property per year, check current City + provincial fees
@@ -33,6 +33,9 @@ STRATA_FEES_CAD_MONTH = {"condo": 500, "townhouse": 400, "house": 0}
 INSURANCE_CAD_YEAR = 2_000
 CLOSING_COSTS = 0.04                   # property transfer tax + legal, fraction of price
 FURNISHING_CAD = 25_000                # per property, one-off
+MIN_COMPARABLES = 20
+MAX_NEIGHBOURHOOD_SHARE = 0.4
+MAX_SEGMENT_SHARE = 0.1
 
 # --- Purchase prices (outside data) ---
 # City of Vancouver Open Data, property tax report 2026 (BC Assessment values), built by

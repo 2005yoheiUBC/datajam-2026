@@ -33,26 +33,28 @@ def underwrite(seg: pd.DataFrame, rev_col="rev_median", months_offline=0) -> pd.
     return s
 
 
-def build_portfolio(uw: pd.DataFrame, budget=config.BUDGET_CAD, min_n=5, max_per_hood=0.4) -> pd.DataFrame:
+def build_portfolio(uw: pd.DataFrame, budget=config.BUDGET_CAD, min_n=config.MIN_COMPARABLES,
+                    max_per_hood=config.MAX_NEIGHBOURHOOD_SHARE) -> pd.DataFrame:
     """Greedy: buy highest-yield segments first.
     Caps: <=40% of budget per neighbourhood, <=10% of a segment's existing supply,
     and skip segments with < min_n comparables (median not trustworthy)."""
-    cands = uw[(uw["n"] >= min_n) & uw["net_yield"].notna()].sort_values("net_yield", ascending=False)
+    cands = uw[(uw["n"] >= min_n) & uw["net_yield"].notna() & (uw["noi"] > 0)].sort_values("net_yield", ascending=False, kind="stable")
     left, picks, by_hood = budget, [], {}
     for _, r in cands.iterrows():
-        for _ in range(max(1, int(r["n"] // 10))):
+        for _ in range(int(r["n"] * config.MAX_SEGMENT_SHARE)):
             spent = by_hood.get(r["neighbourhood_cleansed"], 0)
             if r["cash_in"] > left or spent + r["cash_in"] > budget * max_per_hood:
                 break
             picks.append(r)
             left -= r["cash_in"]
             by_hood[r["neighbourhood_cleansed"]] = spent + r["cash_in"]
-    return pd.DataFrame(picks)
+    return pd.DataFrame(picks, columns=uw.columns)
 
 
 def summarise(port: pd.DataFrame, label: str) -> dict:
-    return {"scenario": label, "units": len(port), "cash_deployed": port["cash_in"].sum(),
-            "noi": port["noi"].sum(), "net_yield": port["noi"].sum() / port["cash_in"].sum(),
+    cash = port["cash_in"].sum()
+    return {"scenario": label, "units": len(port), "cash_deployed": cash,
+            "noi": port["noi"].sum(), "net_yield": port["noi"].sum() / cash if cash else None,
             "neighbourhoods": port["neighbourhood_cleansed"].nunique()}
 
 

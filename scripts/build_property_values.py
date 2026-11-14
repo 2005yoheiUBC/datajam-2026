@@ -11,6 +11,8 @@ import io
 import json
 import sys
 import urllib.request
+import subprocess
+import hashlib
 from pathlib import Path
 
 import numpy as np
@@ -24,10 +26,13 @@ API = "https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets"
 
 
 def download(dataset, params, out):
+    out.parent.mkdir(parents=True, exist_ok=True)
     if not out.exists():
         url = f"{API}/{dataset}/exports/csv?{params}"
         print("downloading", dataset)
-        out.write_bytes(urllib.request.urlopen(url, timeout=600).read())
+        temporary = out.with_suffix('.download')
+        subprocess.run(['curl','-fL','--retry','2','--max-time','180','-o',str(temporary),url],check=True)
+        temporary.replace(out)
     return pd.read_csv(out, sep=";", dtype=str)
 
 
@@ -51,7 +56,10 @@ for f in geo["features"]:
         polys = [polys]
     inside = np.zeros(len(pts), bool)
     for poly in polys:
-        inside |= Poly(np.array(poly[0])[:, :2]).contains_points(pts)
+        ring = Poly(np.array(poly[0])[:, :2]).contains_points(pts)
+        for hole in poly[1:]:
+            ring &= ~Poly(np.array(hole)[:, :2]).contains_points(pts)
+        inside |= ring
     tax.loc[inside, "neighbourhood_cleansed"] = f["properties"]["neighbourhood"]
 
 # --- homes only ---
@@ -67,5 +75,11 @@ homes = tax.dropna(subset=["prop_type", "neighbourhood_cleansed"])
 out = (homes.groupby(["neighbourhood_cleansed", "prop_type"])["value"]
             .agg(properties="size", median_value="median").reset_index())
 out.to_csv(config.EXTERNAL / "property_values_2026.csv", index=False)
+manifest = {'method':'tax coordinate to parcel centroid to Inside Airbnb polygon; zoning/legal-type/value filters are proxies',
+            'matched_tax_rows':len(tax),'selected_home_rows':len(homes),
+            'unassigned_neighbourhood_rows':int(tax.neighbourhood_cleansed.isna().sum()),
+            'source_sha256':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in
+                             [config.RAW/'property_tax_2026.csv',config.RAW/'parcels.csv',config.RAW/'neighbourhoods.geojson']}}
+(config.EXTERNAL/'property_values_provenance.json').write_text(json.dumps(manifest,indent=2))
 print(f"matched {len(tax):,} lots, {len(homes):,} homes in a neighbourhood")
 print(out.pivot(index="neighbourhood_cleansed", columns="prop_type", values="median_value").round(-3))

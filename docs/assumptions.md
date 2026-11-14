@@ -1,25 +1,24 @@
-# Assumptions (keep this on a slide for Q&A)
+# Current assumptions
 
-| Assumption | Value | Source / reasoning | Sensitivity tested |
-|---|---|---|---|
-| Occupancy & revenue | Inside Airbnb `estimated_occupancy_l365d` / `estimated_revenue_l365d` | Their estimate from reviews, 12 months to 15 Jun 2026; not reported figures | |
-| Management fee | 20% of gross | Typical Vancouver STR managers: 15–25% | |
-| Platform fee (host side) | 3% | Airbnb split-fee host share | |
-| Property tax | ~0.3% of price | City of Vancouver residential mill rate | |
-| Strata fees | $500/mo condo | _cite a public source_ | |
-| Purchase prices | Median 2026 assessed value per neighbourhood × condo/house (`data/external/property_values_2026.csv`) | City of Vancouver Open Data property tax report (BC Assessment); assessed ≈ market value mid-2025 | |
-| Condo bedroom multiplier | 1-bed 0.85×, 2-bed 1.15×, 3+ 1.5× of benchmark | Benchmark = a typical unit; our assumption | _test ±_ |
-| Buyable types | condo, townhouse, house; suites/other excluded | A suite can't be bought without the house | |
-| Financing | all cash, no leverage | Keeps return comparable across scenarios | |
-| Regulation | Principal residence rule ignored (simulation); licences + provincial registration still required | Brief §1 | 2 months offline case |
+Updated November 13, 2026. Authoritative values are in src/config.py and analsis/current/results.json.
 
-## Outside datasets used (brief requires at least one)
-- City of Vancouver Open Data: property tax report 2026 + property parcel polygons (purchase prices per neighbourhood)
-- _e.g. CMHC Rental Market Survey — vacancy by zone (for the opt-out / long-term-rental fallback story)_
+| Assumption | Value / status |
+| --- | --- |
+| Revenue | Inside Airbnb trailing-year estimates, carried forward unchanged for 2027; not booking receipts |
+| Acquisition price | Neighbourhood median assessed value × assumed condo bedroom multiplier; not market-price quotes |
+| Condo bedroom factors | Studio .7, 1-bed .85, 2-bed 1.15, 3+ 1.5; tested ±10% |
+| Platform | 15.5% scenario; Airbnb help/article/1857, checked November 13, 2026 |
+| Management / cleaning | 20% / 8% of revenue, project assumptions |
+| Property tax | 0.3% of purchase price, project assumption |
+| Condo strata / insurance / licence | 6,000 / 2,000 / 1,500 annually per unit, project assumptions |
+| Closing / furniture | 4% of purchase price / 25,000 per unit |
+| Financing / income tax / resale | No debt; income tax and resale changes excluded |
+| Repairs | Separate 5%-of-revenue reserve scenario; major works excluded |
+| Selection constraints | At least 20 segment comparables, floor(10% of supply), 40% of total budget per neighbourhood; team choices |
+| Simulation rule | Principal residence requirement explicitly waived by business brief; other permissions remain |
+| Missing bedrooms | Impute one; alternative excluding missing tested |
+| Dates | Mixed scrape dates; last-review dates after nominal snapshot excluded from active flag; residual date uncertainty remains |
 
-## AI assistance disclosure (brief requires this in the pitch)
+External data: public City of Vancouver property tax and parcel datasets. Source reconstruction hashes are in data/external/property_values_provenance.json. GVR October 2026 is used only as a controlled counterfactual.
 
-| What AI helped with | How we checked it |
-|---|---|
-| Pipeline code (Claude) | Read every function; re-derived key numbers by hand in the notebook |
-| _add as you go_ | |
+AI assistance: code, analytical comparisons and presentation drafting. Important outputs were checked through raw reconstruction, source-join reconstruction, independent arithmetic, budget/capacity tests and slide review.

@@ -1,151 +1,106 @@
-# Vancouver Airbnb portfolio recommendation
+# Presentation recommendation and analysis
 
-**Prepared:** November 12, 2026  
-**Project:** DataJam 2026, Data-Driven Developments (DDD)  
-**Budget:** CAD 10 million, all-cash purchases  
-**Scope:** Location, property type, and number of units, excluding Airbnb platform fees, management fees, and cleaning/supplies costs as requested.
+Updated November 13, 2026. CAD throughout. **This report supersedes the November 12 allocation.**
 
-## Recommendation
+## Decision
 
-For the project simulation, allocate approximately **CAD 9.50 million to 14 condominiums across four neighbourhoods**. Use **12 one-bedroom units and two two-bedroom units**, leaving approximately CAD 499,000 unallocated.
+For the investment-committee pitch, recommend **13 condos in 3 Vancouver neighbourhoods**, deploying **$9,638,208** and leaving **$361,792** unallocated. Modelled 2027 operating income is **$246,987**, equivalent to **2.56% on deployed cash**, or **2.47% on the full mandate**. This is a historical-revenue run-rate scenario, not a calibrated 2027 forecast or guaranteed return.
 
-| Neighbourhood | Property type | Units | Comparable listings in segment | Assumed purchase price per unit | Total cash required* |
-| --- | --- | ---: | ---: | ---: | ---: |
-| Downtown Eastside | One-bedroom condo | **6** | 152 | $539,835 | $3,518,570 |
-| Downtown | One-bedroom condo | **5** | 374 | $638,690 | $3,446,188 |
-| West End | Two-bedroom condo | **2** | 25 | $864,110 | $1,847,349 |
-| Kitsilano | One-bedroom condo | **1** | 33 | $638,690 | $689,238 |
-| **Total** | **12 one-bedroom + 2 two-bedroom condos** | **14** | — | — | **$9,501,345** |
+| Neighbourhood | Condo bedrooms | Units | Comparables | Cash deployed | Modelled annual income |
+| --- | --- | --- | --- | --- | --- |
+| Downtown Eastside | 1 | 7 | 146 | $3,996,090 | $116,826 |
+| Downtown | 2 | 4 | 288 | $3,727,229 | $94,124 |
+| West End | 2 | 2 | 23 | $1,914,889 | $36,037 |
 
-*Cash required includes purchase price, assumed acquisition costs of 4%, and furnishing of $25,000 per unit. All amounts are CAD, rounded to the nearest dollar. Comparable listings are observations used to estimate performance, not properties confirmed available for purchase.*
+All units are condos. The two largest neighbourhood allocations represent 80.13% of deployed cash. Geographical limits do not diversify citywide rules or property-type risk. Unallocated cash is a buffer to size explicitly, not a demonstrated adequate reserve.
 
-This replaces the earlier eight-unit, downside-focused recommendation **for this revised scope**. The earlier recommendation included operating fees and used a different selection objective. Its figures should not be combined with this scenario.
+## Preserve the requested fee-excluded allocation study
 
-## Why this allocation
+The user requested ignoring platform, management, and cleaning/supplies costs when selecting locations. That analysis is retained in [current/fee_excluded_holdings.csv](current/fee_excluded_holdings.csv): **14 units**, with 7 one-bedroom units in Downtown Eastside, 5 one-bedroom units in Downtown, and 2 two-bedroom units in West End. It deploys $9,387,223.
 
-### Downtown Eastside: six one-bedroom condos
+Evaluating those same holdings with modelled operating costs gives $239,093 income and 2.55% return. Cost-aware selection instead uses four two-bedroom units in Downtown, producing $7,894 more annual modelled income while committing $250,985 more capital. The final pitch uses this cost-aware alternative because its mandate is investment value. The requested allocation study remains a separately labelled comparison.
 
-This segment has the highest return on deployed cash among candidates with at least 20 comparables under the revised cost assumptions: **6.48% before the three excluded operating costs**. Its assumed purchase price is lower than the corresponding West-side one-bedroom price, while estimated annual revenue is $49,140 per unit.
+## Calculation and meaning of the return
 
-Six units require approximately $3.52 million. A seventh would take neighbourhood spending to approximately $4.11 million, exceeding the $4 million neighbourhood limit.
+```text
+Total cash = purchase price × 1.04 + furnishing of 25,000 per unit
+Operating income = estimated annual revenue × (1 − 15.5% − 20% − 8%) − fixed costs
+Fixed costs = purchase price × 0.3% + strata + insurance + licence/registration
+Return on deployed cash = operating income / total cash
+```
 
-The conclusion depends on the model's East/West benchmark pricing. It does not establish that suitable properties can actually be bought in this neighbourhood at that price.
+Strata is 500/month for condos, insurance 2,000/year, and licence/registration 1,500/year per unit. These, management at 20%, cleaning/supplies at 8%, closing at 4%, and furnishing at 25,000 are modelling assumptions, not property quotes. Platform 15.5% is a single-fee scenario supported by [Airbnb's official explanation](https://www.airbnb.com/help/article/1857), checked November 13, 2026. The historical revenue input is held fixed when changing fees; repricing and guest-demand responses are not estimated.
 
-### Downtown: five one-bedroom condos
-
-Downtown one-bedroom condos rank next, at **5.86% before the excluded costs**, with 374 comparable listings and estimated annual revenue of $51,788 per unit. The larger sample makes this estimate less dependent on a handful of observations, although it does not remove estimation bias.
-
-Five units require approximately $3.45 million. A sixth would exceed the neighbourhood limit. The selection method buys these higher-ranked one-bedroom units before considering Downtown two- or three-bedroom units; the remaining neighbourhood allowance cannot accommodate those larger units.
-
-### West End: two two-bedroom condos
-
-Once the two highest-ranked neighbourhood allocations are filled, West End two-bedroom condos are the next affordable eligible segment, at **5.18% before the excluded costs**. Estimated annual revenue is $59,953 per unit.
-
-The segment has 25 comparables. The strict supply constraint allows at most `floor(25 × 10%) = 2` units. These units also add a second bedroom category to the portfolio, but the data does not establish that this reduces demand risk.
-
-### Kitsilano: one one-bedroom condo
-
-Kitsilano one-bedroom condos are the next eligible affordable segment, at **5.05% before the excluded costs**, with 33 comparables and estimated annual revenue of $46,221 per unit.
-
-One unit fits the remaining budget. After this purchase, approximately $498,655 remains, which is insufficient for another eligible unit under the current assumptions. This is unallocated cash, not evidence that the amount is an adequate operating reserve.
-
-## Financial implications of the revised scope
-
-| Metric | Portfolio total |
+| Annual bridge | CAD |
 | --- | ---: |
-| Cash deployed, including acquisition and furnishing | $9,501,345 |
-| Unallocated budget | $498,655 |
-| Sum of segment-median estimated annual revenue × units | $719,907 |
-| Annual fixed costs retained in the model | $159,398 |
-| **Annual contribution after fixed costs, before excluded costs** | **$560,509** |
-| Contribution / deployed cash | **5.90%** |
-| Contribution / full $10 million budget | **5.61%** |
+| Sum of selected segment-median revenues | $703,278 |
+| Modelled variable operating costs, 43.5% | ($305,926) |
+| Modelled fixed operating costs | ($150,365) |
+| Operating income before income tax/capital repairs | $246,987 |
+| After an additional assumed 5% of revenue for repairs reserve | $211,823 |
 
-**The 5.90% figure is not a fully costed net yield.** It excludes the three operating-cost categories at the user's request. It also excludes income tax, financing, repair reserves, major capital expenditure, and resale gains or losses.
+No debt, income tax, resale gain/loss, or major capital expenditure is included. A repairs reserve is shown separately. The return is not IRR. Summed segment medians are neither an estimated portfolio expectation nor its statistical median.
 
-The annual fixed costs retained are:
+## Selection and alternatives
 
-- Property tax: assumed 0.3% of purchase price.
-- Condo strata fees: assumed $500 per month per unit.
-- Insurance: assumed $2,000 per unit per year.
-- Licence and registration: assumed $1,500 per unit per year.
+Active entire-home listings are grouped by neighbourhood, property bucket, and bedrooms. Eligible segments have at least 20 listing comparables. Rank by modelled operating income / purchase-plus-setup cash, then buy integer units while respecting the 10 million budget, 40% of budget per neighbourhood, and floor(10% of segment comparables) capacity. Skip nonpositive operating income. This is yield-first greedy selection, not proven global optimisation or an exhaustive maximisation of annual income. The limits and minimum sample are team assumptions, not brief requirements.
 
-These are project assumptions, not property-specific quotes. Summing segment medians does not produce a statistically estimated portfolio median or expected value.
+The price split for few-high-value versus many-modest uses the median price across eligible buyable **segments** ($1,791,000), not a transaction-weighted market median. Under identical selection rules:
 
-## Selection method
+| Alternative | Units | Cash deployed | Annual operating income | Return on full budget |
+| --- | --- | --- | --- | --- |
+| modelled_cost_base | 13 | $9,638,208 | $246,987 | 2.47% |
+| few_high_value | 4 | $8,893,668 | $83,517 | 0.84% |
+| many_modest | 13 | $9,638,208 | $246,987 | 2.47% |
 
-The analysis uses the current `outputs/tables/segments_underwritten.csv` and assumptions in `src/config.py`.
+Uninvested cash earns zero in this comparison. Property-count-specific overhead has not been estimated. The low-cost portfolio is more efficient under the model; this is not a causal statement about smaller properties generally.
 
-1. Start with the project's buyable categories: condos, townhouses, and houses. Standalone suites and other categories are excluded by the existing pricing pipeline.
-2. Keep segments with **at least 20 comparable active entire-home listings**. Twenty is a screening assumption, not a statistically validated threshold.
-3. Recalculate each segment with Airbnb fees, management fees, and cleaning/supplies costs set to zero **for this scenario only**. The saved `noi` and `net_yield` columns still include the pipeline's costs and are not the ranking values used here.
-4. Rank segments by annual contribution after retained fixed costs, divided by total cash required.
-5. Buy whole units in descending rank order, subject to:
-   - Total cash deployed no greater than **$10 million**.
-   - Cash deployed per neighbourhood no greater than **40% of the total budget**.
-   - Units per segment no greater than **`floor(comparable listings × 10%)`**.
-   - Positive annual contribution under the revised assumptions.
-6. Stop when no further candidate can fit the remaining budget and constraints.
+## 2027 scenarios and validation
 
-```text
-Annual fixed costs per unit
-  = purchase price × 0.003
-    + monthly strata fee × 12
-    + annual insurance
-    + annual licence/registration
+Properties are assumed operational January 1, 2027 for a full year. Base revenue equals historical estimated revenue, with no assumed trend or World Cup uplift. Revenue −20% / +10% gives a conditional operating-income range of $167,517 to $286,722. This is a chosen planning range, not a prediction interval. Two months offline assumes uniformly distributed revenue; seasonal closure could be worse.
 
-Annual contribution before the three excluded costs
-  = segment-median estimated annual revenue − annual fixed costs
+| Case, same selected holdings | Annual operating income | Return on deployed cash |
+| --- | --- | --- |
+| modelled_cost_base | $246,987 | 2.56% |
+| revenue_plus10 | $286,722 | 2.97% |
+| revenue_minus10 | $207,252 | 2.15% |
+| revenue_minus20 | $167,517 | 1.74% |
+| revenue_minus30 | $127,781 | 1.33% |
+| two_months_offline | $180,762 | 1.88% |
+| revenue_minus20_reserve5 | $139,386 | 1.45% |
+| repairs_reserve5 | $211,823 | 2.20% |
+| platform_fee3 | $334,897 | 3.47% |
+| cross_section_p25 | $-560 | -0.01% |
+| cross_section_p75 | $462,116 | 4.79% |
 
-Cash required per unit
-  = purchase price × 1.04 + 25,000
+p25/p75 are cross-sectional differences between listings, simultaneously applied to holdings; they are not future confidence bounds. The p25 case is near break-even, so the portfolio is not robust to every stress. Revenue −20% plus an extra 5% repairs reserve gives $139,386. Revenue shocks keep holdings fixed. Purchase-price shocks reselect within budget; +20% purchase prices gives 11 units and 1.95%. Condo bedroom-price multipliers are also tested ±10%.
 
-Ranking metric
-  = annual contribution before excluded costs / cash required
-```
+Raw listings were downloaded from the public Inside Airbnb snapshot URL and rebuilt: 6,509 listings, 4,447 after price/stay filters, 3,137 active entire-home listings, 186 segments. There are 132 review dates after the nominal snapshot date; these are excluded from active status. The file's scrape dates are mixed: {"2026-06-16": 3058, "2026-07-06": 2156, "2026-06-15": 1295}. Later scrape observations can still influence prices and trailing estimates, so this is not a reconstructed clean June 15 information set.
 
-This is a **yield-first greedy selection**, not a proven globally optimal allocation. A different objective, such as maximizing total annual contribution or protecting against low-revenue outcomes, can produce a different portfolio. The sample-size and supply constraints describe our selection discipline; observed Airbnb supply is not a count of buyable properties.
+External property prices were rebuilt from public tax and parcel data: 229,095 matched rows and 191,840 selected residential-proxy rows. Tax coordinate joins, parcel centroids, zoning, legal type and value bounds are proxies, not verified acquisition opportunities. Polygon holes are respected. Assessment values are not transaction prices. Townhouses use strata/condo assessment proxies; they are not selected in this recommendation. See [property-value provenance](../data/external/property_values_provenance.json).
 
-## Checks and limitations
+Missing bedrooms remain imputed to one in the base pipeline, but excluding them is tested. Including inactive listings reduces the selected strategy's modelled income; active-only selection may be optimistic. Outlier filters and the 30-versus-90-night threshold are tested, with all results in [current/raw_filter_sensitivity.csv](current/raw_filter_sensitivity.csv). A listing's minimum stay classifies its advertised policy, not every realised booking.
 
-The contribution and selection were independently recalculated from the current aggregate CSV using the formulas above. The selected holdings satisfy all three budget/supply constraints:
+## Three decisions to defend
 
-| Neighbourhood | Share of full $10 million budget | Units / segment comparables |
-| --- | ---: | ---: |
-| Downtown Eastside | 35.19% | 6 / 152 = 3.95% |
-| Downtown | 34.46% | 5 / 374 = 1.34% |
-| West End | 18.47% | 2 / 25 = 8.00% |
-| Kitsilano | 6.89% | 1 / 33 = 3.03% |
+| Decision | What | Why | Measured effect | Evidence |
+| --- | --- | --- | --- | --- |
+| Pricing | Use neighbourhood assessed values instead of two-region GVR benchmarks. | More local price variation; both are acquisition proxies. Same matched listing universe in both cases. | GVR: 14 units, 2.51%; assessments: 13 units, 2.56%. | pricing_method_comparison.csv |
+| Sample size | Require at least 20 comparables per segment. | Avoid choosing segments supported by only a handful of listings; test 5/10/20/30, not a claim of statistical sufficiency. | At 5: 12 units and $243,111 income. At 20: 13 units and $246,987. | sample_size_sensitivity.csv |
+| Concentration | Limit one neighbourhood to 40% of the full budget. | Accept a measured income cost to limit a single-neighbourhood exposure. Shared citywide and condo risks remain. | No cap: 16 units, $280,714, largest exposure 79.92% of budget. At 40%: 13 units, $246,987, 39.96% largest exposure. | concentration_sensitivity.csv |
 
-The two largest neighbourhood allocations account for approximately **73.3% of deployed cash**, and all units are condos. Four neighbourhoods therefore do not imply broad diversification.
+## Risks and actions
 
-Other material limits:
+1. Acquisition-price proxy: obtain property-level price, condition and strata checks, and rerun +10%/+20% cases before offers.
+2. Demand and estimated revenue: track actual booked revenue and costs against these assumptions monthly; investigate a sustained shortfall rather than treating reviews as bookings.
+3. Concentration: keep the explicit cap and report the income sacrificed; recognise common condo/city shocks remain.
+4. Data dates and sample selection: disclose mixed scrape dates, exclude known post-snapshot reviews, and use an earlier independent snapshot for a future out-of-time validation. That validation is not yet performed.
+5. Operational permissions: the brief explicitly waives principal-residence requirements for the simulation. Licences, registration, safety and strata approvals still need checking. Do not pitch a solution to the waived restriction.
 
-- **Purchase prices are proxies.** Prices come from October 2026 GVR East/West benchmarks by property type, with assumed bedroom multipliers. Neighbourhood-specific purchase opportunities, condition, building quality, and strata restrictions are not represented.
-- **Revenue is estimated.** The project uses Inside Airbnb's estimated revenue for the 12 months preceding June 15, 2026, rather than verified booking receipts. This is a historical-input scenario, not a calibrated 2027 forecast.
-- **Current and earlier data differ.** Current configuration uses a minimum-stay filter below 90 nights. The current aggregates contain 374 Downtown one-bedroom comparables and 25 West End two-bedroom comparables; earlier deep-analysis outputs used 364 and 24. Those earlier files are not the source for this report.
-- **Feasibility is a project assumption.** `docs/assumptions.md` relaxes the principal-residence requirement for the simulation. This report does not establish that a fund can legally operate the proposed units. Property-level eligibility, strata approval, and applicable rules remain to be checked.
-- **The original pipeline is unchanged.** This report applies the revised exclusions and stricter screening separately. Running `run.py` or `scripts/deep_analysis.py` with their existing defaults will not reproduce this scenario without applying these changes.
+## Reproduction and traceability
 
-## Recommended team position
+From the repository root, `python3 run.py` recreates current numbers using committed, privacy-safe aggregates and the standard library. For the raw route, create a virtual environment, install requirements, run `bash scripts/download_data.sh`, optionally rebuild assessed prices using `python scripts/build_property_values.py`, then run `python run.py --source raw`. Both routes were checked. To refresh this report and the presentation content, run `python3 scripts/prepare_materials.py` after the analysis.
 
-> Under our revised scenario, we recommend 14 condos: six one-bedroom units in Downtown Eastside, five one-bedroom units in Downtown, two two-bedroom units in West End, and one one-bedroom unit in Kitsilano. This deploys approximately CAD 9.50 million. The allocation follows revenue-to-capital efficiency, a minimum comparable count, and neighbourhood and segment limits. Its estimated annual contribution is CAD 560,509 before platform, management, and cleaning/supplies costs, so it should not be presented as a fully costed investment return.
+Source of truth: [current/results.json](current/results.json). Exact holdings, each experiment, and raw-source hashes are adjacent. Calculation code: [src/analysis.py](../src/analysis.py). Tests: [scripts/test_deep_analysis.py](../scripts/test_deep_analysis.py). Sources: Inside Airbnb (snapshot labelled June 15, 2026, CC BY 4.0), City of Vancouver property tax and parcel datasets, GVR October 2026 for the controlled pricing counterfactual, and the local business-case PDF.
 
-Before presenting, agree whether excluding the three costs is appropriate for the assignment. Before treating the allocation as actionable, validate property-specific acquisition prices and operating eligibility, then restore actual operating costs.
-
-## Sources and provenance
-
-- Current aggregate inputs: [`../outputs/tables/segments_underwritten.csv`](../outputs/tables/segments_underwritten.csv), 121 rows.
-- Budget, cost assumptions, and bedroom multipliers: [`../src/config.py`](../src/config.py).
-- Existing pricing and selection implementation: [`../src/portfolio.py`](../src/portfolio.py).
-- Purchase benchmarks: [`../data/external/gvr_benchmark_2026-10.csv`](../data/external/gvr_benchmark_2026-10.csv), attributed by the project to the [GVR October 2026 statistics package](https://members.gvrealtors.ca/news/GVR-Stats-Package-October-2026.pdf).
-- Project scope and simulation assumptions: [`../README.md`](../README.md) and [`../docs/assumptions.md`](../docs/assumptions.md).
-- Source dataset attribution: Inside Airbnb, Vancouver, June 15, 2026, CC BY 4.0, as documented in the project README. This report uses saved aggregates rather than revalidating the raw dataset.
-
-Aggregate input SHA-256 at preparation:
-
-```text
-71ed30f3ffc1ba25d6548e500ebacedebd72e1cb0d8a1ebead31e9e9ecd03f20
-```
-
-**AI assistance:** Codex helped recalculate the scenario and organize this report. The selection and totals were checked through a separate calculation from the aggregate CSV. The team should review the assumptions and conclusions before submission.
+AI assistance: code, analysis and presentation drafting. Checked by public raw-data reconstruction, assessed-value reconstruction, independent arithmetic, capacity/budget tests, and slide-data reconciliation. The team must understand and defend assumptions. No individual hosts or licence identifiers appear in these outputs.

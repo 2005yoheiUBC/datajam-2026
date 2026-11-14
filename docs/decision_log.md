@@ -1,15 +1,11 @@
-# Decision log (9 of 30 points)
+# Decision log
 
-Each decision scores 3 points: **what** (1), **why, with evidence or alternatives compared** (1),
-**what it changed in the result** (1). Log decisions as you make them; pick the best 3 for the appendix.
+Three presentation decisions, with controlled comparisons. All returns below restore modelled operating costs.
 
-| # | Decision | Why (evidence / alternatives compared) | What changed as a result | Where in code |
-|---|---|---|---|---|
-| 1 | Return metric = year-1 net cash yield on cash deployed (all-cash) | vs. gross revenue (ignores price), vs. cap rate (ignores furnishing/closing), vs. levered IRR (needs a financing assumption we can't defend) | _e.g. ranking flipped: Downtown tops gross revenue but X tops yield_ | `portfolio.py` |
-| 2 | Keep only listings with minimum stay under 90 nights | BC STRAA + Vancouver bylaw (since 2024) define short-term as < 90 consecutive days; we first used the old 30-day rule. 999 listings removed | Switching 30 → 90 days added back 46 listings (all 30-night minimums); yield 4.0% → 3.9%, same portfolio size | `config.py` |
-| 3 | Use Inside Airbnb's occupancy/revenue estimate instead of our own review model | Our model gave the same numbers (Spearman ρ = 1.0), so it added nothing; calendar can't tell booked from blocked (6.4% of listings blocked all year) | Same results, simpler and citable | `prep.py` |
-| 4 | Stay in City of Vancouver vs. Kelowna / elsewhere | _Kelowna opt-out covers tourism zones only; need outside data_ | | |
-| 5 | Concentration cap (≤40% per neighbourhood, ≤10% of a segment's supply) | _regulatory/ local saturation risk_ | _portfolio spread across N neighbourhoods; yield fell by Y bp_ | `portfolio.build_portfolio` |
-| 6 | Price outliers: drop < $30 and > $2,000/night | _show the histogram and a few examples (no URLs)_ | | `config.py` |
+| Decision | What | Why | What changed | Evidence |
+| --- | --- | --- | --- | --- |
+| Pricing | Use neighbourhood assessed values instead of two-region GVR benchmarks. | More local price variation; both are acquisition proxies. Same matched listing universe in both cases. | GVR: 14 units, 2.51%; assessments: 13 units, 2.56%. | pricing_method_comparison.csv |
+| Sample size | Require at least 20 comparables per segment. | Avoid choosing segments supported by only a handful of listings; test 5/10/20/30, not a claim of statistical sufficiency. | At 5: 12 units and $243,111 income. At 20: 13 units and $246,987. | sample_size_sensitivity.csv |
+| Concentration | Limit one neighbourhood to 40% of the full budget. | Accept a measured income cost to limit a single-neighbourhood exposure. Shared citywide and condo risks remain. | No cap: 16 units, $280,714, largest exposure 79.92% of budget. At 40%: 13 units, $246,987, 39.96% largest exposure. | concentration_sensitivity.csv |
 
-**Phrase to use in the pitch:** "We tested that, and it didn't hold." Judges reward this.
+Sources: [current results](../analsis/current/results.json). The 40% cap and minimum 20 comparables are team choices, not brief requirements.
