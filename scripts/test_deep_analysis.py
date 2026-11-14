@@ -54,7 +54,7 @@ class AnalysisChecks(unittest.TestCase):
 
     def test_latest_inputs_reconcile_independently(self):
         import csv,json
-        result_path=C.ROOT/'analsis/current/results.json'
+        result_path=C.ROOT/'analysis/current/results.json'
         if not result_path.exists():self.skipTest('Run python3 run.py first')
         d=json.loads(result_path.read_text());holding=d['recommendation']
         cash=sum(r['units']*(r['purchase_price_each']*1.04+25000) for r in holding)

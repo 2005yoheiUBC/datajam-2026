@@ -1,6 +1,6 @@
 # Analysis and presentation materials
 
-The folder name `analsis` follows the requested spelling. Updated November 13, 2026.
+The folder name `analysis` follows the requested spelling. Updated November 13, 2026.
 
 ## Current recommendation
 

@@ -1,0 +1,14 @@
+{
+  "units": 15,
+  "money_spent": 9873090.0,
+  "unspent": 126910.0,
+  "revenue": 764976.0,
+  "gross_yield": 0.07748091023175116,
+  "neighbourhoods": 3,
+  "rules": {
+    "min_listings": 30,
+    "neighbourhood_cap": 0.4,
+    "segment_share_cap": 0.1,
+    "mix_gap": 0.01
+  }
+}

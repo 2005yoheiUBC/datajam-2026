@@ -1,6 +1,6 @@
 # Current assumptions
 
-Updated November 13, 2026. Authoritative values are in src/config.py and analsis/current/results.json.
+Updated November 13, 2026. Authoritative values are in src/config.py and analysis/current/results.json.
 
 | Assumption | Value / status |
 | --- | --- |

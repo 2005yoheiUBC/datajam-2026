@@ -8,7 +8,7 @@ const SKILL='/Users/yukiko/.codex/plugins/cache/openai-primary-runtime/presentat
 const RUNTIME='/Users/yukiko/.cache/codex-runtimes/codex-primary-runtime/dependencies';
 process.env.RUNTIME_NODE_MODULES=process.env.RUNTIME_NODE_MODULES||path.join(RUNTIME,'node/node_modules');
 const {finalizePresentation,applyPresentationChartFont}=await import(pathToFileURL(path.join(SKILL,'container_tools/artifact_tool_utils.mjs')).href);
-const d=JSON.parse(await fs.readFile(path.join(ROOT,'analsis/current/results.json'),'utf8'));
+const d=JSON.parse(await fs.readFile(path.join(ROOT,'analysis/current/results.json'),'utf8'));
 const b=d.performance,h=d.recommendation,t=d.tables,r=d.raw_validation;
 const cases=Object.fromEntries(t.performance_scenarios.map(x=>[x.scenario,x]));
 const money=v=>'$'+Math.round(v).toLocaleString('en-CA');
@@ -18,7 +18,7 @@ const pct=v=>(v*100).toFixed(2)+'%';
 const FONT='Arial',INK='#162B40',BLUE='#176B88',ORANGE='#C77538',MUTED='#536471';
 const pres=Presentation.create({slideSize:{width:1280,height:720}});
 const notes=[];
-const source='Sources: analsis/current/results.json and corresponding CSVs; src/analysis.py; Business Case (updated) - DataJam 2026.pdf. Public pricing: https://opendata.vancouver.ca/explore/dataset/property-tax-report/ and property-parcel-polygons. Platform fee: https://www.airbnb.com/help/article/1857, checked 2026-11-13.';
+const source='Sources: analysis/current/results.json and corresponding CSVs; src/analysis.py; Business Case (updated) - DataJam 2026.pdf. Public pricing: https://opendata.vancouver.ca/explore/dataset/property-tax-report/ and property-parcel-polygons. Platform fee: https://www.airbnb.com/help/article/1857, checked 2026-11-13.';
 function text(s,content,x,y,w,ht,size=24,bold=false,color=INK){
  const q=s.shapes.add({geometry:'textbox',position:{left:x,top:y,width:w,height:ht},fill:'none',line:{fill:'none',width:0}});
  q.text=content;q.text.style={fontSize:size,typeface:FONT,bold,color};q.text.insets=0;return q;
@@ -125,7 +125,7 @@ s=slide('Fee-excluded allocation and investment recommendation',
 table(s,['Measure','Requested allocation study','Cost-aware pitch'],[['Selection basis','Before the three operating costs','After modelled operating costs'],['Units / neighbourhoods',`${study.units} / ${study.neighbourhoods}`,`${b.units} / ${b.neighbourhoods}`],['Downtown mix','5 one-bedroom condos','4 two-bedroom condos'],['Capital deployed',m(study.cash_deployed),m(b.cash_deployed)],['Income with costs restored',k(study.noi),k(b.noi)],['Return with costs restored',pct(study.yield_on_deployed),pct(b.yield_on_deployed)]],{y:176,ht:405,widths:[355,400,397],size:23});
 text(s,`Cost-aware alternative: ${money(b.noi-study.noi)} more annual income for ${money(b.cash_deployed-study.cash_deployed)} more capital.`,64,615,1152,45,23,true);
 
-const rawRows=await fs.readFile(path.join(ROOT,'analsis/current/raw_filter_sensitivity.csv'),'utf8');
+const rawRows=await fs.readFile(path.join(ROOT,'analysis/current/raw_filter_sensitivity.csv'),'utf8');
 const csvLines=rawRows.trim().split(/\r?\n/);const heads=csvLines[0].split(',');const rawCases=csvLines.slice(1).map(l=>Object.fromEntries(l.split(',').map((v,i)=>[heads[i],v])));
 s=slide('Data-quality checks and remaining limits',
 `APPENDIX. Source labelled June 15 contains June 15, June 16 and July 6 scrape dates. Excluding later review dates removes known look-ahead in the active flag, but later prices and trailing estimates remain possible. The comparison rows rebuild affected segment populations and reselect. Missing bedrooms are imputed to one in base; excluding them is a sensitivity. Including inactive listings reduces modelled income. Assessment joins use parcel centroids and residential proxies, not validated sale opportunities. We have not done out-of-time forecast validation. Public raw source hashes and assessment reconstruction metadata are recorded.`,true);

@@ -10,7 +10,7 @@ from pathlib import Path
 from statistics import median
 from . import config as C
 
-OUT=C.ROOT/'analsis/current'
+OUT=C.ROOT/'analysis/current'
 TEXT=set(C.SEGMENT_KEYS)|{'prop_type','step','why'}
 
 def read_csv(path):

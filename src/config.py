@@ -33,7 +33,7 @@ STRATA_FEES_CAD_MONTH = {"condo": 500, "townhouse": 400, "house": 0}
 INSURANCE_CAD_YEAR = 2_000
 CLOSING_COSTS = 0.04                   # property transfer tax + legal, fraction of price
 FURNISHING_CAD = 25_000                # per property, one-off
-MIN_COMPARABLES = 20
+MIN_COMPARABLES = 30
 MAX_NEIGHBOURHOOD_SHARE = 0.4
 MAX_SEGMENT_SHARE = 0.1
 

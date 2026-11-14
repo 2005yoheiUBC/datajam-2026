@@ -2,7 +2,7 @@
 import csv,json,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-BASE=ROOT/'analsis';OUT=BASE/'current'
+BASE=ROOT/'analysis';OUT=BASE/'current'
 sys.path.insert(0,str(ROOT))
 from src.analysis import C,read_csv,price_segments,underwrite
 
@@ -151,7 +151,7 @@ AI assistance: code, analysis and presentation drafting. Checked by public raw-d
 英語の詳細：[recommendation_en.md](recommendation_en.md)。数値：[current/results.json](current/results.json)。AI支援で整理し、原データの再集計、別計算、制約テストで照合しました。
 '''
  (BASE/'reasoning_ja.md').write_text(ja)
- decision_doc='# Decision log\n\nThree presentation decisions, with controlled comparisons. All returns below restore modelled operating costs.\n\n'+table(['Decision','What','Why','What changed','Evidence'],decisions)+'\n\nSources: [current results](../analsis/current/results.json). The 40% cap and minimum 20 comparables are team choices, not brief requirements.\n'
+ decision_doc='# Decision log\n\nThree presentation decisions, with controlled comparisons. All returns below restore modelled operating costs.\n\n'+table(['Decision','What','Why','What changed','Evidence'],decisions)+'\n\nSources: [current results](../analysis/current/results.json). The 40% cap and minimum 20 comparables are team choices, not brief requirements.\n'
  (ROOT/'docs/decision_log.md').write_text(decision_doc)
  qa=f'''# Presentation preparation and Q&A
 
@@ -216,10 +216,10 @@ Use six main slides and stop at 6:30 to leave a 30-second buffer. The brief allo
 - Run the README commands in a fresh checkout and keep one authoritative set of figures.
 '''
  (BASE/'presentation/preparation_and_qa.md').write_text(qa)
- (ROOT/'docs/qa_notes.md').write_text('# Q&A notes\n\nThe current, checked Q&A and rehearsal guide is [analsis/presentation/preparation_and_qa.md](../analsis/presentation/preparation_and_qa.md). Older unverified statements about equal cost effects and ranking agreement have been removed.\n')
+ (ROOT/'docs/qa_notes.md').write_text('# Q&A notes\n\nThe current, checked Q&A and rehearsal guide is [analysis/presentation/preparation_and_qa.md](../analysis/presentation/preparation_and_qa.md). Older unverified statements about equal cost effects and ranking agreement have been removed.\n')
  (ROOT/'docs/assumptions.md').write_text(f'''# Current assumptions
 
-Updated November 13, 2026. Authoritative values are in src/config.py and analsis/current/results.json.
+Updated November 13, 2026. Authoritative values are in src/config.py and analysis/current/results.json.
 
 | Assumption | Value / status |
 | --- | --- |

@@ -16,7 +16,7 @@ python3 scripts/prepare_materials.py
 python3 -m unittest discover -s scripts -p 'test_deep_analysis.py'
 ```
 
-This route rebuilds pricing and selection from committed, privacy-safe `outputs/tables/segments.csv` and `data/external/property_values_2026.csv`. It writes current results and scenario CSVs to `analsis/current/`, updates the public headline tables under `outputs/`, and regenerates reports, assumptions, decision log and rehearsal guide. The optional pandas-only raw-date test is skipped without pandas; financial and capacity tests still run.
+This route rebuilds pricing and selection from committed, privacy-safe `outputs/tables/segments.csv` and `data/external/property_values_2026.csv`. It writes current results and scenario CSVs to `analysis/current/`, updates the public headline tables under `outputs/`, and regenerates reports, assumptions, decision log and rehearsal guide. The optional pandas-only raw-date test is skipped without pandas; financial and capacity tests still run.
 
 ## Rebuild from public raw sources
 
@@ -31,22 +31,22 @@ python scripts/prepare_materials.py
 python -m unittest discover -s scripts -p 'test_deep_analysis.py'
 ```
 
-`download_data.sh` downloads detailed listings and neighbourhood geometry by default. Use `bash scripts/download_data.sh --all` for reviews and calendars needed by exploratory notebooks. Network access is required. Raw files and locally cleaned listing-level data are ignored by Git. The raw route and assessed-value rebuild were executed successfully on November 13, 2026. Source hashes and join counts are recorded in `analsis/current/raw_validation.json` and `data/external/property_values_provenance.json`.
+`download_data.sh` downloads detailed listings and neighbourhood geometry by default. Use `bash scripts/download_data.sh --all` for reviews and calendars needed by exploratory notebooks. Network access is required. Raw files and locally cleaned listing-level data are ignored by Git. The raw route and assessed-value rebuild were executed successfully on November 13, 2026. Source hashes and join counts are recorded in `analysis/current/raw_validation.json` and `data/external/property_values_provenance.json`.
 
 The frozen environment is in `requirements-lock.txt` and was tested with Python 3.13 on macOS; `requirements.txt` lists top-level exploration dependencies. Assessment rebuilding uses curl with certificate verification and public City API exports. It never scrapes Airbnb pages.
 
 ## Presentation and team materials
 
-- [Current English report](analsis/recommendation_en.md)
-- [Japanese calculation explanation](analsis/reasoning_ja.md)
-- [Editable PPTX](analsis/presentation/ddd_investment_pitch.pptx): six main slides plus five appendix slides
-- [Speaker notes](analsis/presentation/speaker_notes.md)
-- [Rehearsal and Q&A guide](analsis/presentation/preparation_and_qa.md)
+- [Current English report](analysis/recommendation_en.md)
+- [Japanese calculation explanation](analysis/reasoning_ja.md)
+- [Editable PPTX](analysis/presentation/ddd_investment_pitch.pptx): six main slides plus five appendix slides
+- [Speaker notes](analysis/presentation/speaker_notes.md)
+- [Rehearsal and Q&A guide](analysis/presentation/preparation_and_qa.md)
 - [Measured decision log](docs/decision_log.md)
 - [Current assumptions](docs/assumptions.md)
-- [Exact current results](analsis/current/results.json)
+- [Exact current results](analysis/current/results.json)
 
-The PPTX is committed as a deliverable. Its source is `analsis/presentation/build_deck.mjs`, authored using `@oai/artifact-tool`. Rebuilding requires the presentation runtime described in [the presentation README](analsis/presentation/README.md); the Python numerical workflow does not require that runtime. Changes to numerical inputs require rebuilding the deck after regenerating results and reports.
+The PPTX is committed as a deliverable. Its source is `analysis/presentation/build_deck.mjs`, authored using `@oai/artifact-tool`. Rebuilding requires the presentation runtime described in [the presentation README](analysis/presentation/README.md); the Python numerical workflow does not require that runtime. Changes to numerical inputs require rebuilding the deck after regenerating results and reports.
 
 ## Important interpretation limits
 
@@ -56,7 +56,7 @@ The PPTX is committed as a deliverable. Its source is `analsis/presentation/buil
 - The minimum 20 comparables, 40% neighbourhood cap, and 10% listing-supply limit are team choices, not brief requirements. Selection is greedy, not a proven global optimum.
 - Operating income includes modelled platform 15.5%, management 20%, cleaning/supplies 8%, plus fixed costs. Repairs reserves are separate cases. Income tax, major capital works, debt and resale changes are excluded.
 - Planning scenarios and listing p25/p75 comparisons have no calibrated probabilities.
-- Earlier reports and visuals are in `analsis/archive/`. They are historical comparisons and do not contain the current recommendation. Exploratory notebooks can contain older narrative text; current reports and results take precedence.
+- Earlier reports and visuals are in `analysis/archive/`. They are historical comparisons and do not contain the current recommendation. Exploratory notebooks can contain older narrative text; current reports and results take precedence.
 
 ## Files and traceability
 
@@ -69,9 +69,9 @@ src/config.py                  Model assumptions
 scripts/build_property_values.py   Rebuild the public assessment/parcel join
 scripts/prepare_materials.py    Generate reports and presentation preparation materials
 scripts/test_deep_analysis.py   Independent financial and selection checks
-analsis/current/                Exact current results, scenarios and provenance
-analsis/presentation/           Slides, speaker notes and rehearsal guide
-analsis/archive/                Superseded analysis snapshots
+analysis/current/                Exact current results, scenarios and provenance
+analysis/presentation/           Slides, speaker notes and rehearsal guide
+analysis/archive/                Superseded analysis snapshots
 ```
 
 Data: Inside Airbnb, Vancouver, 15 June 2026, CC BY 4.0.

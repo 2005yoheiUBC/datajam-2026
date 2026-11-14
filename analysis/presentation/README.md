@@ -9,7 +9,7 @@ First run `python3 run.py` and `python3 scripts/prepare_materials.py` from the r
 In the authoring environment, link this directory's ignored `node_modules` to the supplied runtime packages and execute:
 
 ```bash
-node analsis/presentation/build_deck.mjs
+node analysis/presentation/build_deck.mjs
 ```
 
 The builder records the runtime/skill paths it uses near its start; adjust those paths for another compatible installation. It writes rendered previews under ignored `.build/` and its private validation receipt under the root `.codex-finalizer/`. The finalizer does not overwrite an existing final PPTX: move an old final to the archive or choose a new output filename before a new build.
