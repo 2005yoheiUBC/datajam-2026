@@ -39,6 +39,9 @@ Only 14 listings (unreliable), and in the Inside Airbnb map it's an industrial/c
 **Why rank by gross yield (revenue ÷ price), ignoring operating costs?**
 Most costs are a % of revenue or the same everywhere, so they shrink every neighbourhood equally. Tested: same top 5, rank agreement 0.99. Costs come back for the final 2027 profit number.
 
+**Downtown looks cheap; isn't the ranking just "condos beat houses"?**
+Partly, yes. Downtown listings are almost all condos (~$870K) while most other areas are houses ($1.7M–$3.2M), so the mixed ranking favours condo areas. Notebook 02 Step 2b ranks each type separately (≥50 listings of that type). Condos: Downtown Eastside 7.6%, Downtown 7.4%, West End 5.8%, Mount Pleasant 4.6%, Kitsilano 3.6%. Houses: Kensington-Cedar Cottage 2.3%, Hastings-Sunrise 2.1%, Renfrew-Collingwood 2.0%, … Dunbar Southlands 1.0%. Even the best house area yields less than every condo area on the list.
+
 **Why not revenue − price?**
 Revenue is yearly, price is paid once; subtracting them is meaningless. A ratio (or payback years = price ÷ revenue) is the right comparison.
 
