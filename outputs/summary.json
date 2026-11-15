@@ -1,20 +1,14 @@
 {
   "units": 15,
+  "neighbourhoods": 3,
   "money_spent": 9873090.0,
   "unspent": 126910.0,
   "revenue": 764976.0,
   "gross_yield": 0.07748091023175116,
-  "neighbourhoods": 3,
-  "rules": {
-    "min_listings": 30,
-    "neighbourhood_cap": 0.4,
-    "segment_share_cap": 0.1,
-    "mix_gap": 0.01
-  },
   "scenarios_2027": {
     "revenue_minus20": {
       "revenue": 611980.8,
-      "gross_yield": 0.061984728185400934
+      "gross_yield": 0.06198472818540093
     },
     "base": {
       "revenue": 764976.0,
@@ -22,7 +16,7 @@
     },
     "revenue_plus10": {
       "revenue": 841473.6000000001,
-      "gross_yield": 0.08522900125492629
+      "gross_yield": 0.08522900125492627
     }
   },
   "old_cost_based_model": {
@@ -30,5 +24,20 @@
     "revenue": 691368.0,
     "money_spent": 8842975.0
   },
-  "concentration_downtown_core": 0.7351395
+  "concentration_downtown_core": 0.7351395,
+  "data_checks": {
+    "scrape_dates": {
+      "2026-06-16": 3058,
+      "2026-07-06": 2156,
+      "2026-06-15": 1295
+    },
+    "reviews_after_snapshot": 132,
+    "missing_bedrooms_clean": 386
+  },
+  "rules": {
+    "min_listings": 30,
+    "neighbourhood_cap": 0.4,
+    "segment_share_cap": 0.1,
+    "mix_gap": 0.01
+  }
 }

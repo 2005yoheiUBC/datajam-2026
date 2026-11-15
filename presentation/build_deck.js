@@ -1,12 +1,12 @@
-// Simple pitch deck: decisions first, then why. Every number is read from outputs/final/ (scripts/final_allocation.py).
-// Run: python scripts/final_allocation.py && NODE_PATH=<folder with pptxgenjs> node analysis/presentation/build_simple_deck.js
+// Pitch deck. Every number is read from outputs/ (python run.py); charts from presentation/make_charts.py.
+// Run: npm install pptxgenjs && node presentation/build_deck.js
 const fs = require("fs");
 const path = require("path");
 const pptxgen = require("pptxgenjs");
 
-const ROOT = path.resolve(__dirname, "..", "..");
-const FINAL = path.join(ROOT, "outputs", "final");
-const OUT = path.join(__dirname, "ddd_pitch_simple.pptx");
+const ROOT = path.resolve(__dirname, "..");
+const FINAL = path.join(ROOT, "outputs");
+const OUT = path.join(__dirname, "douglas_gang_pitch.pptx");
 const APPLY_THEME = process.env.APPLY_THEME;
 
 // ---------- data ----------
@@ -59,8 +59,9 @@ const pres = new pptxgen();
 pres.layout = "LAYOUT_16x9"; // 10 x 5.625 in
 pres.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace };
 pres.title = "DDD Vancouver $10M: recommendation";
-const C = pres.SchemeColor;
-const CREDIT = "Data: Inside Airbnb, Vancouver, 15 June 2026, CC BY 4.0 · City of Vancouver Open Data, property tax report 2026";
+// Plain hex colours, so the deck looks the same without a theme step.
+const C = { text1: HEX.dk1, text2: HEX.dk2, background1: HEX.lt1, background2: HEX.lt2, accent1: HEX.accent1, accent3: HEX.accent3, accent4: HEX.accent4, accent6: HEX.accent6 };
+const CREDIT = "Data: Inside Airbnb, Vancouver, 15 June 2026 snapshot (scraped 15 June–6 July 2026), CC BY 4.0 · City of Vancouver Open Data, property tax report 2026";
 
 pres.defineSlideMaster({
   title: "DARK",
@@ -99,7 +100,7 @@ const quietAxes = (o) => Object.assign({
 }, chartText, o);
 
 
-// Altair PNG (analysis/presentation/make_charts.py), fitted inside a box, keeping its aspect.
+// Altair PNG (presentation/make_charts.py), fitted inside a box, keeping its aspect.
 const CHARTS = path.join(__dirname, "charts");
 function img(slide, name, x, y, w, h) {
   const buf = fs.readFileSync(path.join(CHARTS, `${name}.png`));

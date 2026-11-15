@@ -1,13 +1,13 @@
-"""Altair charts for the simple deck, from outputs/final/ (run scripts/final_allocation.py first).
-Writes analysis/presentation/charts/*.png. Run: python analysis/presentation/make_charts.py"""
+"""Altair charts for the deck, from outputs/ (run `python run.py` first).
+Writes presentation/charts/*.png. Run: python presentation/make_charts.py"""
 import json
 from pathlib import Path
 
 import altair as alt
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[2]
-FINAL = ROOT / "outputs" / "final"
+ROOT = Path(__file__).resolve().parents[1]
+FINAL = ROOT / "outputs"
 OUT = Path(__file__).with_name("charts")
 OUT.mkdir(exist_ok=True)
 

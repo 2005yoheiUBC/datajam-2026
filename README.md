@@ -1,79 +1,45 @@
-# DataJam 2026: Vancouver short-term rental investment
+# Where DDD should put $10M — Douglas Gang · DataJam 2026
 
-DDD has CAD 10 million to invest, with properties operational throughout 2027. The business brief explicitly waives principal-residence requirements for this simulation; other operating rules remain relevant.
+**Recommendation:** buy 15 condos in Downtown Eastside, Downtown and Kitsilano for $9.87M, earning about $765K of revenue in 2027 (about 7.7% of the purchase price).
 
-**Current investment-committee recommendation:** 13 condos across Downtown Eastside, Downtown, and West End. Deploy about CAD 9.64 million for modelled annual operating income of CAD 247,000 (2.56% of deployed cash), before income tax and major capital repairs. These are historical-revenue run-rate assumptions, not a calibrated forecast.
+| Neighbourhood | Units | Price each | Revenue each / yr |
+|---|---|---|---|
+| Downtown Eastside | 7 × 1-bed | $524,875 | $49,140 |
+| Downtown | 3 × 1-bed + 2 × 2-bed | $644,470 / $871,930 | $50,760 / $63,092 |
+| Kitsilano | 3 × 1-bed | $840,565 | $47,511 |
 
-The requested **fee-excluded allocation study** is retained separately: 14 condos. Its before-cost ratio must not be presented as a fully costed return. Every current number is generated from the same inputs by `src/analysis.py`.
+- **Pitch:** [`presentation/douglas_gang_pitch.pptx`](presentation/douglas_gang_pitch.pptx)
+- **Walkthrough:** [`notebooks/analysis.ipynb`](notebooks/analysis.ipynb)
 
-## Reproduce the presentation numbers: no dependencies or downloads
+## Method in one paragraph
+An *option* is a neighbourhood × property type × bedroom count. For each option we take the median revenue of its active, short-term, whole-home listings and divide it by the median 2026 assessed value (condos scaled by bedrooms). We keep condos only, trust only options with 30+ listings, rank by revenue ÷ price, and buy from the top with at most 40% of the budget in one neighbourhood. Operating costs are not given in the brief, so they are left out.
 
-From a fresh checkout with Python 3.10+:
+## Key decisions
+1. **Condos only.** Houses earn similar revenue but cost 2–3× more (best house 3.0% vs every trusted condo option 4.5%+).
+2. **30+ listings per option.** A median from 20 listings is typically ±17% off, from 30 ±14% (resampling test).
+3. **Rank by revenue ÷ price.** Our earlier cost-based ranking bought 13 units / $691K; this one buys 15 units / $765K.
 
+## Reproduce
 ```bash
-python3 run.py
-python3 scripts/prepare_materials.py
-python3 -m unittest discover -s scripts -p 'test_deep_analysis.py'
+pip install -r requirements.txt
+bash scripts/download_data.sh            # Inside Airbnb listings + neighbourhoods -> data/raw/
+python scripts/build_property_values.py  # optional: rebuilds data/external/ from City of Vancouver Open Data
+python run.py                            # -> outputs/ (every number in the deck)
+python presentation/make_charts.py       # -> presentation/charts/
+npm install pptxgenjs && node presentation/build_deck.js   # -> presentation/douglas_gang_pitch.pptx
 ```
 
-This route rebuilds pricing and selection from committed, privacy-safe `outputs/tables/segments.csv` and `data/external/property_values_2026.csv`. It writes current results and scenario CSVs to `analysis/current/`, updates the public headline tables under `outputs/`, and regenerates reports, assumptions, decision log and rehearsal guide. The optional pandas-only raw-date test is skipped without pandas; financial and capacity tests still run.
+| Path | What |
+|---|---|
+| `src/config.py` | Every threshold and assumption |
+| `src/prep.py` | Cleaning and per-listing revenue |
+| `src/final.py` | Options, ranking, allocation, checks |
+| `outputs/` | `allocation.csv`, `options.csv`, `summary.json` and the check tables |
 
-## Rebuild from public raw sources
+## Data
+- Inside Airbnb, Vancouver, 15 June 2026 snapshot (scraped 15 June–6 July 2026), CC BY 4.0.
+- City of Vancouver Open Data: property tax report 2026 and property parcel polygons (purchase prices).
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements-lock.txt
-bash scripts/download_data.sh
-python scripts/build_property_values.py
-python run.py --source raw
-python scripts/prepare_materials.py
-python -m unittest discover -s scripts -p 'test_deep_analysis.py'
-```
+Revenue and bookings are Inside Airbnb estimates, not reported figures. No host names, listing URLs or licence numbers are stored or shown.
 
-`download_data.sh` downloads detailed listings and neighbourhood geometry by default. Use `bash scripts/download_data.sh --all` for reviews and calendars needed by exploratory notebooks. Network access is required. Raw files and locally cleaned listing-level data are ignored by Git. The raw route and assessed-value rebuild were executed successfully on November 13, 2026. Source hashes and join counts are recorded in `analysis/current/raw_validation.json` and `data/external/property_values_provenance.json`.
-
-The frozen environment is in `requirements-lock.txt` and was tested with Python 3.13 on macOS; `requirements.txt` lists top-level exploration dependencies. Assessment rebuilding uses curl with certificate verification and public City API exports. It never scrapes Airbnb pages.
-
-## Presentation and team materials
-
-- [Current English report](analysis/recommendation_en.md)
-- [Japanese calculation explanation](analysis/reasoning_ja.md)
-- [Editable PPTX](analysis/presentation/ddd_investment_pitch.pptx): six main slides plus five appendix slides
-- [Speaker notes](analysis/presentation/speaker_notes.md)
-- [Rehearsal and Q&A guide](analysis/presentation/preparation_and_qa.md)
-- [Measured decision log](docs/decision_log.md)
-- [Current assumptions](docs/assumptions.md)
-- [Exact current results](analysis/current/results.json)
-
-The PPTX is committed as a deliverable. Its source is `analysis/presentation/build_deck.mjs`, authored using `@oai/artifact-tool`. Rebuilding requires the presentation runtime described in [the presentation README](analysis/presentation/README.md); the Python numerical workflow does not require that runtime. Changes to numerical inputs require rebuilding the deck after regenerating results and reports.
-
-## Important interpretation limits
-
-- Revenue and occupancy are Inside Airbnb estimates, not booking receipts.
-- The file labelled June 15 includes mixed June/July scrape dates. Known later review dates are excluded from active status; residual time uncertainty is disclosed.
-- Acquisition prices are neighbourhood median assessed-value proxies adjusted by assumed bedroom factors. They are not confirmed transaction prices or available opportunities.
-- The minimum 20 comparables, 40% neighbourhood cap, and 10% listing-supply limit are team choices, not brief requirements. Selection is greedy, not a proven global optimum.
-- Operating income includes modelled platform 15.5%, management 20%, cleaning/supplies 8%, plus fixed costs. Repairs reserves are separate cases. Income tax, major capital works, debt and resale changes are excluded.
-- Planning scenarios and listing p25/p75 comparisons have no calibrated probabilities.
-- Earlier reports and visuals are in `analysis/archive/`. They are historical comparisons and do not contain the current recommendation. Exploratory notebooks can contain older narrative text; current reports and results take precedence.
-
-## Files and traceability
-
-```text
-run.py                         Aggregate or raw rebuild entry point
-src/analysis.py                Pricing, selection, costs, scenarios and output generation
-src/prep.py                    Raw listing cleaning and segmentation
-src/portfolio.py               Pandas equivalents for exploratory use
-src/config.py                  Model assumptions
-scripts/build_property_values.py   Rebuild the public assessment/parcel join
-scripts/prepare_materials.py    Generate reports and presentation preparation materials
-scripts/test_deep_analysis.py   Independent financial and selection checks
-analysis/current/                Exact current results, scenarios and provenance
-analysis/presentation/           Slides, speaker notes and rehearsal guide
-analysis/archive/                Superseded analysis snapshots
-```
-
-Data: Inside Airbnb, Vancouver, 15 June 2026, CC BY 4.0.
-
-Do not show host names, listing URLs or real licence numbers. Licence-text indicators are estimates, not verified compliance. Disclose material AI assistance and how important outputs were checked, as required by the business brief.
+**AI use:** we used Claude to help write code, run analysis and draft slides, and checked it by re-running every number from this repo, hand-checking the allocation and testing key choices against alternatives.

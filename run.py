@@ -1,8 +1,5 @@
-"""Reproduce the presentation from committed aggregates or downloaded raw listings."""
-import argparse
-from src.analysis import run
+"""Reproduce every number in the deck: python run.py  (needs data/raw from scripts/download_data.sh)."""
+from src.final import main
 
-if __name__ == '__main__':
-    p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--source',choices=['aggregates','raw'],default='aggregates')
-    run(p.parse_args().source)
+if __name__ == "__main__":
+    main()
