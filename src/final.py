@@ -96,6 +96,24 @@ def cost_based_model(opts: pd.DataFrame) -> dict:
     return {"units": units, "revenue": revenue, "money_spent": price}
 
 
+def transfer_tax(price: float) -> float:
+    """BC property transfer tax, standard rates, no exemptions: 1% to $200K, 2% to $2M, 3% to $3M, 5% above."""
+    bands = [(200_000, 0.01), (2_000_000, 0.02), (3_000_000, 0.03), (float("inf"), 0.05)]
+    tax, lower = 0.0, 0.0
+    for upper, rate in bands:
+        tax += max(0.0, min(price, upper) - lower) * rate
+        lower = upper
+    return tax
+
+
+def acquisition_budget(alloc: pd.DataFrame) -> dict:
+    """Appendix: does the plan fit $10M if transfer tax or higher prices are included? (one purchase per unit)"""
+    prices = alloc.loc[alloc.index.repeat(alloc["units"]), "price_each"]
+    purchase, tax = prices.sum(), prices.map(transfer_tax).sum()
+    return {"purchase_prices": float(purchase), "transfer_tax": float(tax),
+            "purchase_plus_transfer_tax": float(purchase + tax), "purchase_prices_plus5pct": float(purchase * 1.05)}
+
+
 # ---------- checks ----------
 def sample_size_test(d: pd.DataFrame) -> pd.DataFrame:
     """How far a median from n listings lands from the median of all Downtown 1-bed condos (5,000 draws each)."""
@@ -145,6 +163,7 @@ def main():
         "scenarios_2027": {k: {"revenue": float(rev * f), "gross_yield": float(rev * f / money)}
                            for k, f in [("revenue_minus20", 0.8), ("base", 1.0), ("revenue_plus10", 1.1)]},
         "old_cost_based_model": cost_based_model(opts),
+        "acquisition_budget": acquisition_budget(alloc),
         "concentration_downtown_core": float(alloc.loc[alloc["neighbourhood_cleansed"].isin(CORE), "money"].sum() / C.BUDGET_CAD),
         "data_checks": {"scrape_dates": raw["last_scraped"].value_counts().to_dict(),
                         "reviews_after_snapshot": int((raw["last_review"] > C.SNAPSHOT_DATE).sum()),

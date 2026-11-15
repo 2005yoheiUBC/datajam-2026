@@ -8,7 +8,7 @@
 | Downtown | 3 × 1-bed + 2 × 2-bed | $644,470 / $871,930 | $50,760 / $63,092 |
 | Kitsilano | 3 × 1-bed | $840,565 | $47,511 |
 
-- **Pitch:** [`presentation/douglas_gang_pitch.pptx`](presentation/douglas_gang_pitch.pptx)
+- **Pitch:** [`presentation/DataJam_2026_Vancouver_Condo_Pitch.pdf`](presentation/DataJam_2026_Vancouver_Condo_Pitch.pdf)
 - **Walkthrough:** [`notebooks/analysis.ipynb`](notebooks/analysis.ipynb)
 
 ## Method in one paragraph
@@ -25,8 +25,7 @@ pip install -r requirements.txt
 bash scripts/download_data.sh            # Inside Airbnb listings + neighbourhoods -> data/raw/
 python scripts/build_property_values.py  # optional: rebuilds data/external/ from City of Vancouver Open Data
 python run.py                            # -> outputs/ (every number in the deck)
-python presentation/make_charts.py       # -> presentation/charts/
-npm install pptxgenjs && node presentation/build_deck.js   # -> presentation/douglas_gang_pitch.pptx
+python presentation/make_charts.py       # -> presentation/charts/ (the figures in the pitch)
 ```
 
 | Path | What |

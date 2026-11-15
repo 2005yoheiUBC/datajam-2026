@@ -24,6 +24,12 @@
     "revenue": 691368.0,
     "money_spent": 8842975.0
   },
+  "acquisition_budget": {
+    "purchase_prices": 9873090.0,
+    "transfer_tax": 167461.79999999996,
+    "purchase_plus_transfer_tax": 10040551.8,
+    "purchase_prices_plus5pct": 10366744.5
+  },
   "concentration_downtown_core": 0.7351395,
   "data_checks": {
     "scrape_dates": {
