@@ -68,7 +68,7 @@ python presentation/make_charts.py       # -> presentation/charts/
 
 ## Team — Douglas Gang
 | Name | GitHub |
-|---|---|---|
+|---|---|
 | Yohei Ono | _@handle_ |
 | _Name_  | _@handle_ |
 | _Name_  | _@handle_ |
