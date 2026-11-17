@@ -13,6 +13,8 @@ A data-driven investment recommendation built over one datathon weekend: given $
 | Kitsilano | 3 × 1-bed | $840,565 | $47,511 |
 
 📊 **Pitch deck:** [`presentation/DataJam_2026_Vancouver_Condo_Pitch.pdf`](presentation/DataJam_2026_Vancouver_Condo_Pitch.pdf)
+
+
 📓 **Walkthrough notebook:** [`notebooks/analysis.ipynb`](notebooks/analysis.ipynb)
 
 ![Ranking of condo options by revenue ÷ price](presentation/charts/ranking.png)
