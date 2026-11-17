@@ -70,7 +70,7 @@ python presentation/make_charts.py       # -> presentation/charts/
 | Name | GitHub |
 |---|---|
 | Yohei Ono | _@handle_ |
-| _Name_  | _@handle_ |
+| Koree Ko  | @corytoo |
 | _Name_  | _@handle_ |
 | _Name_  | _@handle_ |
 
