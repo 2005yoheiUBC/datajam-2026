@@ -65,11 +65,12 @@ python presentation/make_charts.py       # -> presentation/charts/
 ```
 
 ## Team — Douglas Gang
-| Name | Role | GitHub |
+| Name | GitHub |
 |---|---|---|
-| _Name_ | _Role_ | _@handle_ |
-| _Name_ | _Role_ | _@handle_ |
-| _Name_ | _Role_ | _@handle_ |
+| Yohei Ono | _@handle_ |
+| _Name_  | _@handle_ |
+| _Name_  | _@handle_ |
+| _Name_  | _@handle_ |
 
 ## Tech
 Python · pandas · NumPy · Altair · matplotlib · Jupyter
